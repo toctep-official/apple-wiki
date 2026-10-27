@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% from "_macros.html" import picture %}
+
+{% block heading %}Энциклопедия Apple{% endblock %}
+
+{% block content %}
+<div class="welcome">
+  <b>Добро пожаловать в Энциклопедию Apple!</b>
+  <p>Здесь {{ article_count }} статей об истории компании, людях, устройствах и технологиях — от гаража в 1976 году до наших дней.</p>
+</div>
+
+<!-- Вкладки разделов. Работают без JavaScript: каждая вкладка — радиокнопка -->
+<div class="tabs">
+  {% for key, name in categories.items() %}
+    <input type="radio" name="tab" id="tab-{{ key }}" {% if loop.first %}checked{% endif %}>
+    <label for="tab-{{ key }}">{{ name }}</label>
+  {% endfor %}
+  <a class="tab-link" href="{{ url_for('random_article') }}">Случайная статья</a>
+
+  {% for key, items in sections.items() %}
+    <div class="tab-panel" id="panel-{{ key }}">
+      <div class="grid">
+        {% for a in items %}{% include "_card.html" %}{% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="main-columns">
+  <section class="box">
+    <h2 class="box-title">Статья дня</h2>
+    <div class="box-body">
+      <span class="thumb">{{ picture(featured) }}</span>
+      <p><a href="{{ url_for('article', slug=featured.slug) }}"><b>{{ featured.title }}</b></a> — {{ featured.summary }}</p>
+      <p>{{ featured.body[0] }}</p>
+      <p><a href="{{ url_for('article', slug=featured.slug) }}">Читать далее →</a></p>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2 class="box-title">Биография дня</h2>
+    <div class="box-body">
+      <span class="thumb">{{ picture(biography) }}</span>
+      <p><a href="{{ url_for('article', slug=biography.slug) }}"><b>{{ biography.title }}</b></a> — {{ biography.summary }}</p>
+      <p>{{ biography.body[0] }}</p>
+      <p><a href="{{ url_for('article', slug=biography.slug) }}">Читать далее →</a></p>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block rail %}
+<section class="rail-box">
+  <h3>Статья дня</h3>
+  <a class="rail-featured" href="{{ url_for('article', slug=featured.slug) }}">
+    <span class="thumb">{{ picture(featured) }}</span>
+    <span>
+      <b>{{ featured.title }}</b>
+      <span class="muted">{{ featured.summary }}</span>
+    </span>
+  </a>
+</section>
+<section class="rail-box">
+  <h3>Об энциклопедии</h3>
+  <p>Энциклопедия Apple — справочник обо всём, что связано с Apple. Сейчас в ней <b>{{ article_count }}</b> статей.</p>
+</section>
+<section class="rail-box">
+  <h3>Последние события</h3>
+  <ul class="rail-list">
+    {% for a in events|reverse %}
+      <li><span class="year">{{ a.year }}</span> <a href="{{ url_for('article', slug=a.slug) }}">{{ a.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <p><a href="{{ url_for('timeline') }}">Вся хронология →</a></p>
+</section>
+{% endblock %}

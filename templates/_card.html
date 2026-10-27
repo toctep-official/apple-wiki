@@ -1,0 +1,5 @@
+{% from "_macros.html" import picture %}
+<a class="card" href="{{ url_for('article', slug=a.slug) }}">
+  <span class="card-image">{{ picture(a) }}</span>
+  <span class="card-title">{{ a.title }}</span>
+</a>

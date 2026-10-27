@@ -1,0 +1,17 @@
+{# Картинка статьи. Если картинки нет — показываем эмодзи #}
+{% macro picture(a) -%}
+  {%- if a.image -%}
+    <img class="pic{% if a.image.logo %} logo{% endif %}{% if a.image.lift %} lift{% endif %}" src="{{ url_for('static', filename=a.image.file) }}" alt="{{ a.title }}" loading="lazy">
+  {%- else -%}
+    {{ a.emoji }}
+  {%- endif -%}
+{%- endmacro %}
+
+{# Цвета устройства: кружок цвета и рядом официальное название #}
+{% macro color_list(colors) -%}
+  <ul class="color-list">
+    {%- for name, hex in colors %}
+      <li><span class="swatch" style="background: {{ hex }}"></span>{{ name }}</li>
+    {%- endfor %}
+  </ul>
+{%- endmacro %}

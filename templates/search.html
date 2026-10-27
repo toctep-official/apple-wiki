@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% from "_macros.html" import picture %}
+
+{% block title %}Поиск: {{ query }} — Энциклопедия Apple{% endblock %}
+
+{% block crumbs %}<p class="crumbs">Результаты поиска</p>{% endblock %}
+
+{% block heading %}«{{ query }}»{% endblock %}
+
+{% block content %}
+{% if results %}
+  <p class="muted">Найдено статей: {{ results|length }}</p>
+  <ul class="results">
+    {% for a in results %}
+      <li>
+        <span class="thumb small">{{ picture(a) }}</span>
+        <div>
+          <a class="result-title" href="{{ url_for('article', slug=a.slug) }}">{{ a.title }}</a>
+          <p>{{ a.summary }}</p>
+          <span class="muted">{{ categories[a.category] }}</span>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="muted">Ничего не нашлось. Попробуйте другое слово.</p>
+{% endif %}
+{% endblock %}

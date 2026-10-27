@@ -1,0 +1,27 @@
+venv/
+__pycache__/
+*.pyc
+.env
+
+# Старые фото Apple, на которые сайт больше не ссылается: их нельзя выкладывать
+static/img/airpods-3.webp
+static/img/airpods-5.webp
+static/img/ipad-air-8.webp
+static/img/ipod-2.webp
+static/img/ipod-photo.webp
+static/img/ipod-u2.webp
+static/img/jobs-return.svg
+static/img/mac-pro-3-rack.webp
+static/img/operating-systems.webp
+static/img/wallpaper.jpg
+static/img/watch-edition.webp
+static/img/watch-hermes.webp
+static/img/watch-s11.webp
+static/img/watch-s12.webp
+static/img/watch-s1.webp
+static/img/watch-s2.webp
+static/img/watch-s6.webp
+static/img/watch-se-1.webp
+static/img/watch-se-3.webp
+static/img/watch-ultra-4.webp
+static/img/watch-se-2.webp

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% from "_macros.html" import picture %}
+
+{% block title %}{{ categories[key] }} — Энциклопедия Apple{% endblock %}
+
+{% block crumbs %}<p class="crumbs">Категория</p>{% endblock %}
+
+{% block heading %}{{ categories[key] }}{% endblock %}
+
+{% block content %}
+<p class="muted">Все статьи в категории «{{ categories[key] }}»: {{ menu[key]|length }}.</p>
+<div class="letters">
+  {% for letter, items in groups.items() %}
+    <div class="letter-group" id="{{ letter|string|replace(' ', '-') }}">
+      <h3>{{ letter }}</h3>
+      <ul>
+        {% for a in items %}
+          <li><span class="thumb small">{{ picture(a) }}</span><a href="{{ url_for('article', slug=a.slug) }}">{{ a.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

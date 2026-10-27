@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Тему выбираем до отрисовки страницы, чтобы не было вспышки светлой темы.
+    // Сохранённый выбор важнее настройки системы
+    (function () {
+      var theme;
+      try { theme = localStorage.getItem("theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='glass.js') }}"></script>
+  <script src="{{ url_for('static', filename='theme.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='suggest.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+  <title>{% block title %}Энциклопедия Apple{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+</head>
+<body>
+  <!-- Узкая тёмная полоса слева, как на вики-сайтах -->
+  <nav class="side-nav">
+    <a class="side-logo" href="{{ url_for('index') }}" title="Главная"><img src="{{ url_for('static', filename='img/apple-logo.webp') }}" alt=""></a>
+    <a href="{{ url_for('timeline') }}" title="Хронология">🕒</a>
+    <a href="{{ url_for('random_article') }}" title="Случайная статья">🎲</a>
+    <a href="#search" title="Поиск">🔍</a>
+    <button type="button" id="theme-toggle" title="Тёмная тема" aria-label="Тёмная тема">🌙</button>
+    <button type="button" id="glass-toggle" title="Настройки Liquid Glass" aria-label="Настройки Liquid Glass">💧</button>
+  </nav>
+
+  <div class="wrap">
+    <header class="wiki-header">
+      <div class="wiki-title">
+        <a class="wiki-logo" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/apple-logo.webp') }}" alt=""></a>
+        <div>
+          <a class="wiki-name" href="{{ url_for('index') }}">Энциклопедия Apple</a>
+          <span class="wiki-stats">Статей: <b>{{ article_count }}</b></span>
+        </div>
+      </div>
+
+      <form class="search" id="search" action="{{ url_for('index') }}">
+        <input type="search" name="q" placeholder="Искать в энциклопедии…" value="{{ query or '' }}"
+               autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest-list"
+               data-suggest-url="{{ url_for('suggest') }}">
+        <ul class="suggest" id="suggest-list" role="listbox" hidden></ul>
+      </form>
+
+      <nav class="wiki-menu">
+        <div class="menu-item">
+          <a href="{{ url_for('index') }}">Обзор ▾</a>
+          <ul class="dropdown">
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('timeline') }}">Хронология</a></li>
+            <li><a href="{{ url_for('random_article') }}">Случайная статья</a></li>
+          </ul>
+        </div>
+        {% for key, name in categories.items() %}
+          <div class="menu-item">
+            <a href="{{ url_for('category', key=key) }}">{{ name }} ▾</a>
+            {% if key in submenus %}
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                {% if overview.get(key) %}
+                  <li class="dropdown-overview"><a href="{{ url_for('article', slug=overview[key].slug) }}">Обзор: {{ overview[key].title }}</a></li>
+                {% endif %}
+                {% for family, entries in submenus[key] %}
+                  <li class="has-sub">
+                    <a href="{{ url_for('category', key=key) }}{% if key != 'iphone' %}#{{ family|replace(' ', '-') }}{% endif %}">{{ family }} <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu{% if entries|length > 12 %} wide{% endif %}">
+                      {% for label, slug in entries %}
+                        <li><a href="{{ url_for('article', slug=slug) }}">{{ label }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <ul class="dropdown{% if menu[key]|length > 12 %} long{% endif %}">
+                {% for a in menu[key] %}
+                  <li><a href="{{ url_for('article', slug=a.slug) }}">{{ a.title }}</a></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="page-header">
+        {% block crumbs %}{% endblock %}
+        <h1>{% block heading %}{% endblock %}</h1>
+      </div>
+
+      <div class="page-body{% if no_rail %} wide{% endif %}">
+        <div class="page-content">
+          {% block content %}{% endblock %}
+        </div>
+
+        {% if not no_rail %}
+        <aside class="rail">
+          {% block rail %}{% endblock %}
+          {% block rail_sections %}
+          <section class="rail-box">
+            <h3>Разделы</h3>
+            <ul class="rail-list">
+              {% for key, name in categories.items() %}
+                <li><a href="{{ url_for('category', key=key) }}">{{ name }}</a> <span class="muted">{{ menu[key]|length }}</span></li>
+              {% endfor %}
+              <li><a href="{{ url_for('timeline') }}">Хронология</a></li>
+            </ul>
+          </section>
+          {% endblock %}
+        </aside>
+        {% endif %}
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <b>Энциклопедия Apple</b>
+        <p>История компании, люди, устройства и технологии. Учебный проект.</p>
+      </div>
+      <div>
+        <b>Разделы</b>
+        <ul>
+          {% for key, name in categories.items() %}
+            <li><a href="{{ url_for('category', key=key) }}">{{ name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <b>Ещё</b>
+        <ul>
+          <li><a href="{{ url_for('timeline') }}">Хронология</a></li>
+          <li><a href="{{ url_for('random_article') }}">Случайная статья</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

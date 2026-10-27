@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% from "_macros.html" import picture %}
+
+{% block title %}Хронология — Энциклопедия Apple{% endblock %}
+
+{% block heading %}Хронология{% endblock %}
+
+{% block content %}
+<ol class="timeline">
+  {% for a in events %}
+    <li>
+      <span class="thumb small">{{ picture(a) }}</span>
+      <div>
+      <span class="year">{{ a.year }}</span>
+      <a href="{{ url_for('article', slug=a.slug) }}">{{ a.title }}</a>
+      <span class="muted">{{ a.summary }}</span>
+      </div>
+    </li>
+  {% endfor %}
+</ol>
+{% endblock %}

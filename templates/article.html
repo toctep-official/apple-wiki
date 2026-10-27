@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% from "_macros.html" import picture, color_list %}
+
+{% block title %}{{ article.title }} — Энциклопедия Apple{% endblock %}
+
+{# На странице статьи правая колонка не нужна: статья занимает всю ширину #}
+{% set no_rail = true %}
+
+{% block heading %}{{ article.title }}{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='lightbox.js') }}" defer></script>{% endblock %}
+
+{% block content %}
+<!-- Карточка с фактами справа, как инфобокс на вики -->
+<aside class="infobox">
+  <h2 class="infobox-title">{{ article.title }}</h2>
+  {% if article.image_back %}
+    <!-- Устройство с двух сторон: спереди и сзади -->
+    <div class="infobox-image two-sides">
+      <figure>{{ picture(article) }}<figcaption>Спереди</figcaption></figure>
+      <figure><img class="pic" src="{{ url_for('static', filename=article.image_back.file) }}" alt="{{ article.title }} сзади" loading="lazy"><figcaption>Сзади</figcaption></figure>
+    </div>
+  {% else %}
+    <div class="infobox-image">{{ picture(article) }}</div>
+  {% endif %}
+  <p class="infobox-caption">{{ article.summary }}</p>
+  <h3 class="infobox-section">Факты</h3>
+  <dl>
+    {% for name, value in article.facts.items() %}
+      <div class="infobox-row">
+        <dt>{{ name }}</dt>
+        {% if name == "Цвета" and article.colors %}
+          <dd>{{ color_list(article.colors) }}</dd>
+        {% else %}
+          <dd>{{ value|link_fact(name, article.slug) }}</dd>
+        {% endif %}
+      </div>
+    {% endfor %}
+    {% if article.colors and "Цвета" not in article.facts %}
+      <div class="infobox-row">
+        <dt>Цвета</dt>
+        <dd>{{ color_list(article.colors) }}</dd>
+      </div>
+    {% endif %}
+  </dl>
+</aside>
+
+{% for paragraph in article.body %}
+  <p>{{ paragraph }}</p>
+{% endfor %}
+
+{% if article.sections %}
+  <!-- Оглавление, как на вики: ссылки на разделы ниже -->
+  <nav class="toc">
+    <b>Содержание</b>
+    <ol>
+      {% for section in article.sections %}
+        <li><a href="#section-{{ loop.index }}">{{ section.title }}</a></li>
+      {% endfor %}
+      {% if article.sources %}<li><a href="#sources">Источники</a></li>{% endif %}
+    </ol>
+  </nav>
+
+  {% for section in article.sections %}
+    <h2 id="section-{{ loop.index }}">{{ section.title }}</h2>
+    {% for paragraph in section.paragraphs %}
+      <p>{{ paragraph }}</p>
+    {% endfor %}
+    {% if section.list %}
+      <ul>
+        {% for item in section.list %}<li>{{ item }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if article.colors %}
+  <!-- Как в Википедии: образец цвета, потом официальное название -->
+  <h2 id="colors">Цвета</h2>
+  <table class="colors-table">
+    <thead><tr><th>Цвет</th><th>Название</th></tr></thead>
+    <tbody>
+      {% for name, hex in article.colors %}
+        <tr><td><span class="swatch big" style="background: {{ hex }}"></span></td><td>{{ name }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if article.colors_apple %}
+    <p class="muted small-note">Названия — официальные, со страницы Apple «Как определить модель {{ article.colors_apple }}». Оттенки на образцах примерные.</p>
+  {% else %}
+    <p class="muted small-note">Названия и оттенки — по данным английской Википедии, русские названия переведены.</p>
+  {% endif %}
+{% endif %}
+
+{% if article.gallery %}
+  <h2>Галерея</h2>
+  <div class="gallery">
+    {% for g in article.gallery %}
+      <figure>
+        <img src="{{ url_for('static', filename=g.file) }}" alt="{{ g.caption }}" loading="lazy">
+        <figcaption>{{ g.caption }}. <a href="{{ g.source }}" rel="noopener" target="_blank">{% if g.license %}Фото: Wikimedia Commons</a> ({{ g.license }}){% else %}Фото: Apple</a>{% endif %}.</figcaption>
+      </figure>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if related %}
+  <h2>См. также</h2>
+  <ul>
+    {% for a in related %}
+      <li><a href="{{ url_for('article', slug=a.slug) }}">{{ a.title }}</a> — {{ a.summary }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if article.sources %}
+  <h2 id="sources">Источники</h2>
+  <ol class="sources">
+    {% for s in article.sources %}
+      <li><a href="{{ s.url }}" rel="noopener" target="_blank">{{ s.title }}</a></li>
+    {% endfor %}
+  </ol>
+{% endif %}
+
+{% if article.origin %}
+  <p class="origin muted">
+    Статья переведена с английского: <a href="{{ article.origin.url }}" rel="noopener" target="_blank">{{ article.origin.title }}</a>.
+    Текст распространяется по лицензии <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.ru" rel="noopener" target="_blank">CC BY-SA</a>.
+    {% if article.image_back %}
+      Изображения с Wikimedia Commons:
+      <a href="{{ article.image.source }}" rel="noopener" target="_blank">спереди</a> ({{ article.image.license }}),
+      <a href="{{ article.image_back.source }}" rel="noopener" target="_blank">сзади</a> ({{ article.image_back.license }}).
+    {% elif article.image and 'commons.wikimedia.org' in article.image.source %}
+      <a href="{{ article.image.source }}" rel="noopener" target="_blank">Изображение</a>{% if article.image.author %}: {{ article.image.author }},{% endif %} Wikimedia Commons{% if article.image.license %} ({{ article.image.license }}){% endif %}.
+    {% elif article.image and article.image.source %}<a href="{{ article.image.source }}" rel="noopener" target="_blank">Изображение</a> взято оттуда же.{% endif %}
+  </p>
+{% endif %}
+
+{% endblock %}
