@@ -65,22 +65,118 @@ function render(query) {
   active = -1;
 }
 
+// Поиск идёт прямо в браузере: все статьи лежат в одном файле search-index.json.
+// Скачиваем его один раз, при первом поиске
+let index = null;
+function getIndex() {
+  if (!index) index = fetch(input.dataset.indexUrl).then((r) => r.json());
+  return index;
+}
+
+// Те же правила, что в articles.py: отрезаем окончание («айфоны» → «айфон»)…
+function stem(word, data) {
+  for (const ending of data.endings) {
+    if (word.endsWith(ending) && word.length - ending.length >= 3) return word.slice(0, -ending.length);
+  }
+  return word;
+}
+
+// …и меняем русское написание на название («айфон» → «iphone»), даже недописанное
+function alias(word, data) {
+  if (word in data.aliases) return data.aliases[word];
+  if (word.length >= 3) {
+    for (const key in data.aliases) if (key.startsWith(word)) return data.aliases[key];
+  }
+  return word;
+}
+
+function queryWords(query, data) {
+  return query.toLowerCase().replaceAll("ё", "е").split(/\s+/).filter(Boolean).map((w) => alias(stem(w, data), data));
+}
+
+const plainTitle = (a) => a.title.toLowerCase().replaceAll("ё", "е");
+
+// Статья подходит, если в ней есть все слова запроса. Выше те, где больше слов запроса есть в заголовке:
+// на «айпод нано» сначала iPod nano, а потом остальные iPod
+function searchArticles(query, data) {
+  const words = queryWords(query, data);
+  if (!words.length) return [];
+  const results = data.articles.filter((a) => words.every((w) => a.text.includes(w)));
+  const inTitle = (a) => words.filter((w) => plainTitle(a).includes(w)).length;
+  return results.sort((a, b) => inTitle(b) - inTitle(a));
+}
+
+// Подсказки: выше статьи, где в названии больше слов запроса, затем точное совпадение и начало названия
+function suggestArticles(query, data, limit = 8) {
+  const words = queryWords(query, data);
+  const rank = (a) => {
+    const title = plainTitle(a);
+    return [-words.filter((w) => title.includes(w)).length, title !== words.join(" "), !title.startsWith(words[0])];
+  };
+  const compare = (x, y) => {
+    for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return x[i] < y[i] ? -1 : 1;
+    return 0;
+  };
+  return searchArticles(query, data).sort((a, b) => compare(rank(a), rank(b))).slice(0, limit);
+}
+
 async function load() {
   const query = input.value.trim();
   if (query.length < 2) { close(); return; }
   if (query === lastQuery && !list.hidden) return;
   lastQuery = query;
   try {
-    const response = await fetch(input.dataset.suggestUrl + "?q=" + encodeURIComponent(query));
-    const data = await response.json();
-    // Пока ждали ответ, человек мог допечатать — старый ответ уже не нужен
+    const data = await getIndex();
+    // Пока скачивали статьи, человек мог допечатать — старый запрос уже не нужен
     if (query !== input.value.trim()) return;
-    items = data;
+    items = suggestArticles(query, data);
     render(query);
   } catch (e) {
     close();
   }
 }
+
+// Страница поиска: запрос берём из адреса (?q=…) и рисуем все найденные статьи
+async function showSearchPage(results) {
+  const query = new URLSearchParams(location.search).get("q")?.trim() || "";
+  const status = document.getElementById("search-status");
+  input.value = query;
+  if (!query) { status.textContent = "Введите запрос в поле поиска."; return; }
+  document.getElementById("search-heading").textContent = "«" + query + "»";
+  document.title = "Поиск: " + query + " — Энциклопедия Apple";
+  const found = searchArticles(query, await getIndex());
+  status.textContent = found.length ? "Найдено статей: " + found.length : "Ничего не нашлось. Попробуйте другое слово.";
+  for (const a of found) {
+    const li = document.createElement("li");
+    const thumb = document.createElement("span");
+    thumb.className = "thumb small";
+    if (a.image) {
+      const img = document.createElement("img");
+      img.className = a.logo ? "pic logo" : "pic";
+      img.src = a.image;
+      img.alt = a.title;
+      img.loading = "lazy";
+      thumb.append(img);
+    } else {
+      thumb.textContent = a.emoji;
+    }
+    const div = document.createElement("div");
+    const link = document.createElement("a");
+    link.className = "result-title";
+    link.href = a.url;
+    link.textContent = a.title;
+    const summary = document.createElement("p");
+    summary.textContent = a.summary;
+    const category = document.createElement("span");
+    category.className = "muted";
+    category.textContent = a.category;
+    div.append(link, summary, category);
+    li.append(thumb, div);
+    results.append(li);
+  }
+}
+const searchResults = document.getElementById("search-results");
+if (searchResults) showSearchPage(searchResults);
 
 function highlight(i) {
   const options = list.querySelectorAll("[role=option]");
@@ -95,7 +191,7 @@ function highlight(i) {
   }
 }
 
-// Ждём 150 мс после последней буквы, чтобы не спрашивать сервер на каждое нажатие
+// Ждём 150 мс после последней буквы, чтобы не искать заново на каждое нажатие
 input.addEventListener("input", () => {
   clearTimeout(timer);
   timer = setTimeout(load, 150);

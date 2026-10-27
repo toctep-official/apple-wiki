@@ -1,4 +1,3 @@
-import random
 from datetime import date
 
 import re
@@ -9,14 +8,16 @@ from markupsafe import Markup, escape
 from articles import (
     ARTICLES,
     CATEGORIES,
+    ENDINGS,
+    SEARCH_ALIASES,
     article_of_the_day,
     articles_in_category,
     get_article,
-    search_articles,
-    suggest_articles,
 )
 
 app = Flask(__name__)
+# Русские буквы в JSON пишем как есть, а не кодами а: файл поиска выходит вдвое меньше
+app.json.ensure_ascii = False
 
 
 # Линейки iPad, Mac, Apple Watch, iPod и AirPods в том порядке, в каком они идут в меню.
@@ -243,10 +244,10 @@ def common():
 
 @app.route("/")
 def index():
-    # Что ввели в поиск: берём из адреса ?q=...
+    # Старые ссылки на поиск вида /?q=... ведём на страницу поиска
     query = request.args.get("q", "").strip()
     if query:
-        return render_template("search.html", query=query, results=search_articles(query))
+        return redirect(url_for("search", q=query))
 
     # Главная: статьи, разложенные по категориям, и биография дня
     sections = {key: articles_in_category(key) for key in CATEGORIES}
@@ -286,27 +287,46 @@ def timeline():
     return render_template("timeline.html", events=events)
 
 
-@app.route("/suggest")
-def suggest():
-    # Подсказки для поля поиска: скрипт static/suggest.js спрашивает их на каждую набранную букву
-    query = request.args.get("q", "").strip()
+def search_text(a):
+    # Весь текст статьи одной строкой: заголовок, описание, факты и разделы.
+    # Маленькими буквами и с «е» вместо «ё», как в search_articles
+    parts = [a["title"], a["summary"], *a["facts"].values(), *a["body"]]
+    for section in a.get("sections", []):
+        parts += [section["title"], *section.get("paragraphs", []), *section.get("list", [])]
+    return " ".join(parts).lower().replace("ё", "е")
+
+
+@app.route("/search-index.json")
+def search_index():
+    # Всё, что нужно для поиска в браузере (static/suggest.js): так поиск работает
+    # и здесь, и на GitHub Pages, где нет Python
     items = []
-    for a in suggest_articles(query) if len(query) >= 2 else []:
-        image = url_for("static", filename=a["image"]["file"]) if a.get("image") else None
+    for a in ARTICLES:
+        image = a.get("image")
         items.append({
             "title": a["title"],
             "summary": a["summary"],
             "url": url_for("article", slug=a["slug"]),
-            "image": image,
+            "image": url_for("static", filename=image["file"]) if image else None,
+            "logo": bool(image and image.get("logo")),
             "emoji": a["emoji"],
             "category": CATEGORIES[a["category"]],
+            "text": search_text(a),
         })
-    return jsonify(items)
+    return jsonify({"endings": ENDINGS, "aliases": SEARCH_ALIASES, "articles": items})
+
+
+@app.route("/search")
+def search():
+    # Результаты ищет и рисует скрипт в браузере, страница — только рамка для них
+    return render_template("search.html", query=request.args.get("q", "").strip())
 
 
 @app.route("/random")
 def random_article():
-    return redirect(url_for("article", slug=random.choice(ARTICLES)["slug"]))
+    # Статью выбирает браузер, поэтому каждый раз новая, даже на GitHub Pages
+    urls = [url_for("article", slug=a["slug"]) for a in ARTICLES]
+    return render_template("random.html", urls=urls)
 
 
 @app.route("/article/<slug>")

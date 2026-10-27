@@ -47,10 +47,10 @@
         </div>
       </div>
 
-      <form class="search" id="search" action="{{ url_for('index') }}">
+      <form class="search" id="search" action="{{ url_for('search') }}">
         <input type="search" name="q" placeholder="Искать в энциклопедии…" value="{{ query or '' }}"
                autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest-list"
-               data-suggest-url="{{ url_for('suggest') }}">
+               data-index-url="{{ url_for('search_index') }}">
         <ul class="suggest" id="suggest-list" role="listbox" hidden></ul>
       </form>
 

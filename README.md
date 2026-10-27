@@ -1,5 +1,7 @@
 # 🍎 Энциклопедия Apple
 
+**[Открыть сайт →](https://toctep-official.github.io/apple-wiki/)**
+
 ![Главная страница](docs/home.jpg)
 
 Энциклопедия на русском языке об истории Apple: люди, iPhone, iPad, Mac, Apple Watch, iPod, AirPods и технологии.
@@ -27,16 +29,29 @@ venv/bin/flask --app app run
 
 Откройте http://localhost:5000.
 
+## Как обновить сайт на GitHub Pages
+
+На GitHub Pages нет Python, поэтому сайт собирается в обычные HTML-файлы:
+
+```bash
+venv/bin/python build.py
+```
+
+Программа сохраняет каждую страницу в папку `_site/`, а её содержимое выкладывается в ветку `gh-pages`.
+Поиск, подсказки и случайная статья работают прямо в браузере: все статьи для поиска лежат в `search-index.json`.
+«Статья дня» на Pages меняется, только когда сайт пересобирают.
+
 ## Структура
 
 ```
-app.py                 сайт на Flask: страницы, поиск, подсказки
+app.py                 сайт на Flask: страницы и файл для поиска search-index.json
+build.py               собирает сайт в HTML-файлы для GitHub Pages
 articles.py            статьи об истории, людях и технологиях, плюс общий список всех статей
 iphones.py, ipads.py,  статьи об устройствах по разделам
 macs.py, watches.py,
 ipods.py, airpods_models.py
 templates/             шаблоны страниц
-static/                стили, скрипты и картинки
+static/                стили, скрипты (поиск — suggest.js) и картинки
 ```
 
 ## Фото, тексты и лицензии

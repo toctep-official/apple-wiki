@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Случайная статья — Энциклопедия Apple{% endblock %}
+
+{% block scripts %}
+<script>
+  // Выбираем статью прямо в браузере и сразу переходим к ней.
+  // replace — чтобы кнопка «Назад» вела на прошлую страницу, а не сюда
+  (function () {
+    var urls = {{ urls|tojson }};
+    location.replace(urls[Math.floor(Math.random() * urls.length)]);
+  })();
+</script>
+{% endblock %}
+
+{% block heading %}Случайная статья{% endblock %}
+
+{% block content %}
+<p class="muted">Выбираем статью…</p>
+{% endblock %}
