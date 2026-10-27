@@ -1,0 +1,3039 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    // Тему выбираем до отрисовки страницы, чтобы не было вспышки светлой темы.
+    // Сохранённый выбор важнее настройки системы
+    (function () {
+      var theme;
+      try { theme = localStorage.getItem("theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <script src="/apple-wiki/static/glass.js"></script>
+  <script src="/apple-wiki/static/theme.js" defer></script>
+  <script src="/apple-wiki/static/suggest.js" defer></script>
+  
+  <title>Хронология — Энциклопедия Apple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/apple-wiki/static/style.css">
+  <link rel="icon" type="image/png" href="/apple-wiki/static/img/favicon.png">
+</head>
+<body>
+  <!-- Узкая тёмная полоса слева, как на вики-сайтах -->
+  <nav class="side-nav">
+    <a class="side-logo" href="/apple-wiki/" title="Главная"><img src="/apple-wiki/static/img/apple-logo.webp" alt="Главная"></a>
+    <a href="/apple-wiki/timeline" title="Хронология" aria-label="Хронология">🕒</a>
+    <a href="/apple-wiki/random" title="Случайная статья" aria-label="Случайная статья">🎲</a>
+    <a href="#search" title="Поиск" aria-label="Поиск" onclick="document.querySelector('.search input').focus()">🔍</a>
+    <button type="button" id="theme-toggle" title="Тёмная тема" aria-label="Тёмная тема">🌙</button>
+    <button type="button" id="glass-toggle" title="Настройки Liquid Glass" aria-label="Настройки Liquid Glass">💧</button>
+  </nav>
+
+  <div class="wrap">
+    <header class="wiki-header">
+      <div class="wiki-title">
+        <a class="wiki-logo" href="/apple-wiki/"><img src="/apple-wiki/static/img/apple-logo.webp" alt=""></a>
+        <div>
+          <a class="wiki-name" href="/apple-wiki/">Энциклопедия Apple</a>
+          <span class="wiki-stats">Статей: <b>234</b></span>
+        </div>
+      </div>
+
+      <form class="search" id="search" action="/apple-wiki/search">
+        <input type="search" name="q" placeholder="Искать в энциклопедии…" aria-label="Поиск по энциклопедии" value=""
+               autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest-list"
+               data-index-url="/apple-wiki/search-index.json">
+        <ul class="suggest" id="suggest-list" role="listbox" hidden></ul>
+      </form>
+
+      <nav class="wiki-menu">
+        <div class="menu-item">
+          <a href="/apple-wiki/">Обзор<span class="caret"> ▾</span></a>
+          <ul class="dropdown">
+            <li><a href="/apple-wiki/">Главная</a></li>
+            <li><a href="/apple-wiki/timeline">Хронология</a></li>
+            <li><a href="/apple-wiki/random">Случайная статья</a></li>
+          </ul>
+        </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/history">История<span class="caret"> ▾</span></a>
+            
+              <ul class="dropdown">
+                
+                  <li><a href="/apple-wiki/article/apple-ii">Apple II</a></li>
+                
+                  <li><a href="/apple-wiki/article/macintosh">Macintosh 1984</a></li>
+                
+                  <li><a href="/apple-wiki/article/jobs-return">Возвращение Джобса</a></li>
+                
+                  <li><a href="/apple-wiki/article/founding">Основание Apple</a></li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/people">Люди<span class="caret"> ▾</span></a>
+            
+              <ul class="dropdown">
+                
+                  <li><a href="/apple-wiki/article/ternus">Джон Тёрнус</a></li>
+                
+                  <li><a href="/apple-wiki/article/ive">Джони Айв</a></li>
+                
+                  <li><a href="/apple-wiki/article/wozniak">Стив Возняк</a></li>
+                
+                  <li><a href="/apple-wiki/article/jobs">Стив Джобс</a></li>
+                
+                  <li><a href="/apple-wiki/article/cook">Тим Кук</a></li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/iphone">iPhone<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/iphone">Обзор: iPhone</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu wide">
+                      
+                        <li><a href="/apple-wiki/article/iphone-launch">iPhone (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-3g">iPhone 3G</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-3gs">iPhone 3GS</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-4">iPhone 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-4s">iPhone 4S</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-5">iPhone 5</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-5c">iPhone 5C</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-5s">iPhone 5S</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-6">iPhone 6</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-6s">iPhone 6s</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-7">iPhone 7</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-8">iPhone 8</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-x">iPhone X</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-xr">iPhone XR</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-xs">iPhone XS</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-11">iPhone 11</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-12">iPhone 12</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-13">iPhone 13</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-14">iPhone 14</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-15">iPhone 15</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-16">iPhone 16</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-17">iPhone 17</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-air">iPhone Air</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone Plus <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-6">iPhone 6 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-6s">iPhone 6s Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-7">iPhone 7 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-8">iPhone 8 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-xs">iPhone XS Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-14">iPhone 14 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-15">iPhone 15 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-16">iPhone 16 Plus</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-12">iPhone 12 mini</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-13">iPhone 13 mini</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-11-pro">iPhone 11 Pro и 11 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-12-pro">iPhone 12 Pro и 12 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-13-pro">iPhone 13 Pro и 13 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-14-pro">iPhone 14 Pro и 14 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-15-pro">iPhone 15 Pro и 15 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-16-pro">iPhone 16 Pro и 16 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-17-pro">iPhone 17 Pro и 17 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-18-pro">iPhone 18 Pro и 18 Pro Max</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone Duo <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-duo">iPhone Duo</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone SE <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-se-1">iPhone SE (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-se-2">iPhone SE (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-se-3">iPhone SE (3-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone e <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-16e">iPhone 16e</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-17e">iPhone 17e</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/ipad">iPad<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/ipad">Обзор: iPad</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad">iPad <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-1">iPad (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-2">iPad 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-3">iPad (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-4">iPad (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-5">iPad (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-6">iPad (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-7">iPad (7-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-8">iPad (8-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-9">iPad (9-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-10">iPad (10-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-11">iPad (11-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad-mini">iPad mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-1">iPad mini (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-2">iPad mini 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-3">iPad mini 3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-4">iPad mini 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-5">iPad mini (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-6">iPad mini (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-7">iPad mini (7-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad-Pro">iPad Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-1">iPad Pro (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-2">iPad Pro (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-3">iPad Pro (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-4">iPad Pro (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-5">iPad Pro (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-6">iPad Pro (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-7">iPad Pro (7-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-8">iPad Pro (8-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad-Air">iPad Air <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-1">iPad Air (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-2">iPad Air 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-3">iPad Air (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-4">iPad Air (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-5">iPad Air (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-6">iPad Air (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-7">iPad Air (7-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-8">iPad Air (8-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/mac">Mac<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/mac">Обзор: Mac</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#MacBook">MacBook <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/macbook">MacBook</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-original">MacBook (2006–2012)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-retina">MacBook (2015–2019)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-neo">MacBook Neo</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#MacBook-Air">MacBook Air <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-1">MacBook Air (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-2">MacBook Air (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-3">MacBook Air (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-4">MacBook Air (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m2">MacBook Air (M2, 2022–2023)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m3">MacBook Air (M3, 2024)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m4">MacBook Air (M4, 2025)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m5">MacBook Air (M5, 2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#MacBook-Pro">MacBook Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-1">MacBook Pro (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-2">MacBook Pro (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-3">MacBook Pro (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-4">MacBook Pro (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-5">MacBook Pro (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-2021">MacBook Pro (14 и 16 дюймов, 2021)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m2">MacBook Pro (M2, 2022–2023)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m3">MacBook Pro (M3, 2023)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m4">MacBook Pro (M4, 2024)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m5">MacBook Pro (M5, 2025–2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#iMac">iMac <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/imac">iMac</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-g3">iMac G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-g4">iMac G4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/emac">eMac</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-g5">iMac G5</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-intel">iMac на Intel (2006–2012)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-2012">iMac (2012)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-pro">iMac Pro</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-2021">iMac (2021, M1)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-2023">iMac (2023–2024)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Mac-mini">Mac mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-1">Mac mini (1-е поколение, 2005)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-2">Mac mini (2-е поколение, 2010)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-3">Mac mini (3-е поколение, 2024)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-m6">Mac mini (M6 и M5 Pro, 2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Mac-Studio">Mac Studio <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2022">Mac Studio (2022, M1 Max и M1 Ultra)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2023">Mac Studio (2023, M2 Max и M2 Ultra)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2025">Mac Studio (2025, M4 Max и M3 Ultra)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2026">Mac Studio (2026, M5 Max и M5 Ultra)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Mac-Pro">Mac Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/mac-pro-1">Mac Pro (1-е поколение, 2006–2013)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-pro-2">Mac Pro (2-е поколение, 2013–2019)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-pro-3">Mac Pro (3-е поколение, 2019–2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Power-Mac">Power Mac <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/power-macintosh-6100">Power Macintosh 6100</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g3">Power Macintosh G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g3-bw">Power Macintosh G3 (синий и белый)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g4">Power Mac G4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g4-cube">Power Mac G4 Cube</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g5">Power Mac G5</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#PowerBook-и-iBook">PowerBook и iBook <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/powerbook-100">PowerBook 100</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-duo">PowerBook Duo</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-500">PowerBook серии 500</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-g3">PowerBook G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ibook-g3">iBook G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-g4-titanium">PowerBook G4 (титановый)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-g4-aluminum">PowerBook G4 (алюминиевый)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ibook-g4">iBook G4</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Macintosh">Macintosh <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu wide">
+                      
+                        <li><a href="/apple-wiki/article/macintosh-512k">Macintosh 512K</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-plus">Macintosh Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-se">Macintosh SE</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-ii">Macintosh II</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-se-30">Macintosh SE/30</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-portable">Macintosh Portable</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-classic">Macintosh Classic</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-lc">Macintosh LC</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-quadra">Macintosh Quadra</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-performa">Macintosh Performa</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-color-classic">Macintosh Color Classic</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-centris">Macintosh Centris</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-tv">Macintosh TV</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-20th">Twentieth Anniversary Macintosh</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Мониторы">Мониторы <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/display-applecolor-rgb">AppleColor RGB Monitor</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-applecolor-hr">AppleColor High-Resolution RGB Monitor</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-studio-1998">Apple Studio Display (1998–2004)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-cinema">Apple Cinema Display (1999–2009)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-cinema-hd">Apple Cinema HD Display (2002–2010)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-led-cinema">Apple LED Cinema Display (2008–2011)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-thunderbolt">Apple Thunderbolt Display (2011–2016)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-pro-xdr">Pro Display XDR</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-studio-2022">Studio Display (2022)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/watch">Apple Watch<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/watch">Обзор: Apple Watch</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Apple-Watch">Apple Watch <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu wide">
+                      
+                        <li><a href="/apple-wiki/article/watch-1">Apple Watch (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s1">Apple Watch Series 1</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s2">Apple Watch Series 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s3">Apple Watch Series 3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s4">Apple Watch Series 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s5">Apple Watch Series 5</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s6">Apple Watch Series 6</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s7">Apple Watch Series 7</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s8">Apple Watch Series 8</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s9">Apple Watch Series 9</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s10">Apple Watch Series 10</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s11">Apple Watch Series 11</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s12">Apple Watch Series 12</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Apple-Watch-SE">Apple Watch SE <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/watch-se-1">Apple Watch SE (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-se-2">Apple Watch SE (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-se-3">Apple Watch SE 3</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Apple-Watch-Ultra">Apple Watch Ultra <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-1">Apple Watch Ultra</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-2">Apple Watch Ultra 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-3">Apple Watch Ultra 3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-4">Apple Watch Ultra 4</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Особые-серии">Особые серии <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/watch-edition">Apple Watch Edition</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-sport">Apple Watch Sport</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-hermes">Apple Watch Hermès</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-nike">Apple Watch Nike</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/ipod">iPod<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/ipod">Обзор: iPod</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod">iPod <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-1">iPod (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-2">iPod (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-3">iPod (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-4">iPod (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-photo">iPod photo</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-u2">iPod U2 Special Edition</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-5">iPod (5-е поколение, с видео)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-classic">iPod classic</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-mini">iPod mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-mini">iPod mini</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-nano">iPod nano <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-1">iPod nano (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-2">iPod nano (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-3">iPod nano (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-4">iPod nano (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-5">iPod nano (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-6">iPod nano (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-7">iPod nano (7-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-shuffle">iPod shuffle <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-1">iPod shuffle (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-2">iPod shuffle (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-3">iPod shuffle (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-4">iPod shuffle (4-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-touch">iPod touch <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-1">iPod touch (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-2">iPod touch (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-3">iPod touch (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-4">iPod touch (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-5">iPod touch (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-6">iPod touch (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-7">iPod touch (7-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/airpods">AirPods<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/airpods">Обзор: AirPods</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/airpods#AirPods">AirPods <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/airpods-1">AirPods (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-2">AirPods (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-3">AirPods (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-4">AirPods 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-5">AirPods 5</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/airpods#AirPods-Pro">AirPods Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/airpods-pro-1">AirPods Pro (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-pro-2">AirPods Pro 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-pro-3">AirPods Pro 3</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/airpods#AirPods-Max">AirPods Max <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/airpods-max">AirPods Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-max-2">AirPods Max 2</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/tech">Технологии<span class="caret"> ▾</span></a>
+            
+              <ul class="dropdown">
+                
+                  <li><a href="/apple-wiki/article/app-store">App Store</a></li>
+                
+                  <li><a href="/apple-wiki/article/vision-pro">Apple Vision Pro</a></li>
+                
+                  <li><a href="/apple-wiki/article/apple-silicon">Apple silicon</a></li>
+                
+                  <li><a href="/apple-wiki/article/face-id">Face ID</a></li>
+                
+                  <li><a href="/apple-wiki/article/siri">Siri</a></li>
+                
+                  <li><a href="/apple-wiki/article/touch-id">Touch ID</a></li>
+                
+                  <li><a href="/apple-wiki/article/operating-systems">Операционные системы</a></li>
+                
+              </ul>
+            
+          </div>
+        
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="page-header">
+        
+        <h1>Хронология</h1>
+      </div>
+
+      <div class="page-body">
+        <div class="page-content">
+          
+<ol class="timeline">
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout lift" src="/apple-wiki/static/img/apple-logo.webp" alt="Основание Apple" loading="lazy"></span>
+      <div>
+      <span class="year">1976</span>
+      <a href="/apple-wiki/article/founding">Основание Apple</a>
+      <span class="muted">Как Джобс, Возняк и Уэйн основали Apple в 1976 году и чем компания стала потом.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/apple-ii.webp" alt="Apple II" loading="lazy"></span>
+      <div>
+      <span class="year">1977</span>
+      <a href="/apple-wiki/article/apple-ii">Apple II</a>
+      <span class="muted">Один из первых массовых персональных компьютеров и первый большой успех Apple.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh.webp" alt="Macintosh 1984" loading="lazy"></span>
+      <div>
+      <span class="year">1984</span>
+      <a href="/apple-wiki/article/macintosh">Macintosh 1984</a>
+      <span class="muted">Первый Macintosh — компьютер с мышью и графическим интерфейсом, вышедший в 1984 году.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/mac.webp" alt="Mac" loading="lazy"></span>
+      <div>
+      <span class="year">1984</span>
+      <a href="/apple-wiki/article/mac">Mac</a>
+      <span class="muted">Персональные компьютеры Apple, которые ведут историю от Macintosh 1984 года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/macintosh-512k.webp" alt="Macintosh 512K" loading="lazy"></span>
+      <div>
+      <span class="year">1984</span>
+      <a href="/apple-wiki/article/macintosh-512k">Macintosh 512K</a>
+      <span class="muted">Macintosh 512K («Толстый Mac») — первое обновление оригинального Macintosh с учетверённой памятью.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/macintosh-plus.webp" alt="Macintosh Plus" loading="lazy"></span>
+      <div>
+      <span class="year">1986</span>
+      <a href="/apple-wiki/article/macintosh-plus">Macintosh Plus</a>
+      <span class="muted">Macintosh Plus — третья модель Macintosh с мегабайтом памяти и первым портом SCSI, продержавшаяся в продаже почти пять лет.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/display-applecolor-rgb.webp" alt="AppleColor RGB Monitor" loading="lazy"></span>
+      <div>
+      <span class="year">1986</span>
+      <a href="/apple-wiki/article/display-applecolor-rgb">AppleColor RGB Monitor</a>
+      <span class="muted">Цветной 12-дюймовый ЭЛТ-монитор Apple 1986 года для компьютеров Apple IIc и Apple IIGS.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-se.webp" alt="Macintosh SE" loading="lazy"></span>
+      <div>
+      <span class="year">1987</span>
+      <a href="/apple-wiki/article/macintosh-se">Macintosh SE</a>
+      <span class="muted">Macintosh SE — моноблочный преемник Macintosh Plus с гнездом расширения и внутренним жёстким диском.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-ii.webp" alt="Macintosh II" loading="lazy"></span>
+      <div>
+      <span class="year">1987</span>
+      <a href="/apple-wiki/article/macintosh-ii">Macintosh II</a>
+      <span class="muted">Macintosh II — первый модульный Mac в отдельном корпусе и первый Macintosh с поддержкой цветного монитора.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/display-applecolor-hr.webp" alt="AppleColor High-Resolution RGB Monitor" loading="lazy"></span>
+      <div>
+      <span class="year">1987</span>
+      <a href="/apple-wiki/article/display-applecolor-hr">AppleColor High-Resolution RGB Monitor</a>
+      <span class="muted">13-дюймовый монитор Sony Trinitron, выпущенный вместе с первым Macintosh II.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-se-30.webp" alt="Macintosh SE/30" loading="lazy"></span>
+      <div>
+      <span class="year">1989</span>
+      <a href="/apple-wiki/article/macintosh-se-30">Macintosh SE/30</a>
+      <span class="muted">Macintosh SE/30 — обновлённый Macintosh SE с процессором 68030, любимец коллекционеров.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/macintosh-portable.webp" alt="Macintosh Portable" loading="lazy"></span>
+      <div>
+      <span class="year">1989</span>
+      <a href="/apple-wiki/article/macintosh-portable">Macintosh Portable</a>
+      <span class="muted">Macintosh Portable — первая попытка Apple сделать портативный Mac: роскошный, но тяжёлый и дорогой.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-classic.webp" alt="Macintosh Classic" loading="lazy"></span>
+      <div>
+      <span class="year">1990</span>
+      <a href="/apple-wiki/article/macintosh-classic">Macintosh Classic</a>
+      <span class="muted">Недорогой компактный Macintosh 1990 года — первый компьютер Apple дешевле тысячи долларов, умевший загружаться из ПЗУ.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-lc.webp" alt="Macintosh LC" loading="lazy"></span>
+      <div>
+      <span class="year">1990</span>
+      <a href="/apple-wiki/article/macintosh-lc">Macintosh LC</a>
+      <span class="muted">Первый недорогой цветной Macintosh 1990 года — плоский «пицца-бокс», с которого началась серия LC.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macintosh-quadra.webp" alt="Macintosh Quadra" loading="lazy"></span>
+      <div>
+      <span class="year">1991</span>
+      <a href="/apple-wiki/article/macintosh-quadra">Macintosh Quadra</a>
+      <span class="muted">Профессиональная серия Macintosh 1991–1994 годов на процессоре Motorola 68040 — последняя линейка Apple на 68k.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/powerbook-100.webp" alt="PowerBook 100" loading="lazy"></span>
+      <div>
+      <span class="year">1991</span>
+      <a href="/apple-wiki/article/powerbook-100">PowerBook 100</a>
+      <span class="muted">Один из первых PowerBook 1991 года: компактный ноутбук, который для Apple спроектировала Sony.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-performa.webp" alt="Macintosh Performa" loading="lazy"></span>
+      <div>
+      <span class="year">1992</span>
+      <a href="/apple-wiki/article/macintosh-performa">Macintosh Performa</a>
+      <span class="muted">Потребительская линейка Macintosh 1992–1997 годов с готовыми комплектами программ, которую свернул вернувшийся в Apple Стив Джобс.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/powerbook-duo.webp" alt="PowerBook Duo" loading="lazy"></span>
+      <div>
+      <span class="year">1992</span>
+      <a href="/apple-wiki/article/powerbook-duo">PowerBook Duo</a>
+      <span class="muted">Линейка сверхлёгких ноутбуков PowerBook Duo, которые вставлялись в док-станции и превращались в настольный компьютер.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-color-classic.webp" alt="Macintosh Color Classic" loading="lazy"></span>
+      <div>
+      <span class="year">1993</span>
+      <a href="/apple-wiki/article/macintosh-color-classic">Macintosh Color Classic</a>
+      <span class="muted">Цветной моноблок 1993 года с 10-дюймовым экраном Sony Trinitron — последний компактный Mac классической линейки.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-centris.webp" alt="Macintosh Centris" loading="lazy"></span>
+      <div>
+      <span class="year">1993</span>
+      <a href="/apple-wiki/article/macintosh-centris">Macintosh Centris</a>
+      <span class="muted">Очень недолговечная линейка Macintosh 1993 года на процессорах серии 68040, которую Apple за считанные месяцы влила в Quadra.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macintosh-tv.webp" alt="Macintosh TV" loading="lazy"></span>
+      <div>
+      <span class="year">1993</span>
+      <a href="/apple-wiki/article/macintosh-tv">Macintosh TV</a>
+      <span class="muted">Первая попытка Apple объединить компьютер и телевизор: чёрный Macintosh со встроенным ТВ-тюнером, выпущенный всего в 10 тысячах экземпляров.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/power-macintosh-6100.webp" alt="Power Macintosh 6100" loading="lazy"></span>
+      <div>
+      <span class="year">1994</span>
+      <a href="/apple-wiki/article/power-macintosh-6100">Power Macintosh 6100</a>
+      <span class="muted">Первый Power Macintosh начального уровня на PowerPC 601 в корпусе Quadra 610.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/powerbook-500.webp" alt="PowerBook серии 500" loading="lazy"></span>
+      <div>
+      <span class="year">1994</span>
+      <a href="/apple-wiki/article/powerbook-500">PowerBook серии 500</a>
+      <span class="muted">PowerBook серии 500 «Blackbird»: первые PowerBook с трекпадом вместо трекбола.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout logo" src="/apple-wiki/static/img/jobs-return.webp" alt="Возвращение Джобса" loading="lazy"></span>
+      <div>
+      <span class="year">1997</span>
+      <a href="/apple-wiki/article/jobs-return">Возвращение Джобса</a>
+      <span class="muted">Как компания NeXT, основанная Стивом Джобсом после ухода из Apple, вернула его в Apple.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macintosh-20th.webp" alt="Twentieth Anniversary Macintosh" loading="lazy"></span>
+      <div>
+      <span class="year">1997</span>
+      <a href="/apple-wiki/article/macintosh-20th">Twentieth Anniversary Macintosh</a>
+      <span class="muted">Юбилейный Macintosh к 20-летию Apple: футуристичный, но дорогой и слабый компьютер, ставший предметом коллекций.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/power-mac-g3.webp" alt="Power Macintosh G3" loading="lazy"></span>
+      <div>
+      <span class="year">1997</span>
+      <a href="/apple-wiki/article/power-mac-g3">Power Macintosh G3</a>
+      <span class="muted">Серия Macintosh на процессоре PowerPC G3, ставшая флагманом Apple.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/powerbook-g3.webp" alt="PowerBook G3" loading="lazy"></span>
+      <div>
+      <span class="year">1997</span>
+      <a href="/apple-wiki/article/powerbook-g3">PowerBook G3</a>
+      <span class="muted">Первые ноутбуки Apple на процессоре PowerPC G3: от «Kanga» 1997 года до «Pismo» 2000 года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/imac.webp" alt="iMac" loading="lazy"></span>
+      <div>
+      <span class="year">1998</span>
+      <a href="/apple-wiki/article/imac">iMac</a>
+      <span class="muted">Моноблочные настольные компьютеры Apple — от цветного iMac G3 до тонкого iMac на M4.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/imac-g3.webp" alt="iMac G3" loading="lazy"></span>
+      <div>
+      <span class="year">1998</span>
+      <a href="/apple-wiki/article/imac-g3">iMac G3</a>
+      <span class="muted">Первый iMac: цветной полупрозрачный моноблок с ЭЛТ-экраном, с которого началось возрождение Apple.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/display-studio-1998.webp" alt="Apple Studio Display (1998–2004)" loading="lazy"></span>
+      <div>
+      <span class="year">1998</span>
+      <a href="/apple-wiki/article/display-studio-1998">Apple Studio Display (1998–2004)</a>
+      <span class="muted">Первая линейка мониторов Apple с ЖК-матрицей и ЭЛТ-модели в стиле Power Mac G3 и G4.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/power-mac-g3-bw.webp" alt="Power Macintosh G3 (синий и белый)" loading="lazy"></span>
+      <div>
+      <span class="year">1999</span>
+      <a href="/apple-wiki/article/power-mac-g3-bw">Power Macintosh G3 (синий и белый)</a>
+      <span class="muted">Переработанный Power Mac G3 1999 года в полупрозрачном сине-белом корпусе.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/power-mac-g4.webp" alt="Power Mac G4" loading="lazy"></span>
+      <div>
+      <span class="year">1999</span>
+      <a href="/apple-wiki/article/power-mac-g4">Power Mac G4</a>
+      <span class="muted">Первый настольный «суперкомпьютер» с процессором PowerPC G4, производительностью свыше гигафлопса.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ibook-g3.webp" alt="iBook G3" loading="lazy"></span>
+      <div>
+      <span class="year">1999</span>
+      <a href="/apple-wiki/article/ibook-g3">iBook G3</a>
+      <span class="muted">Первый iBook: разноцветный «раскладушечный» ноутбук для массового рынка и первый Mac с беспроводной сетью AirPort.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🖥️</span>
+      <div>
+      <span class="year">1999</span>
+      <a href="/apple-wiki/article/display-cinema">Apple Cinema Display (1999–2009)</a>
+      <span class="muted">Первые широкоэкранные ЖК-мониторы Apple: 22-дюймовый в пластике 1999 года и 20-дюймовые модели вплоть до 2009 года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/power-mac-g4-cube.webp" alt="Power Mac G4 Cube" loading="lazy"></span>
+      <div>
+      <span class="year">2000</span>
+      <a href="/apple-wiki/article/power-mac-g4-cube">Power Mac G4 Cube</a>
+      <span class="muted">Компактный бесшумный «куб» на базе Power Mac G4, не завоевавший покупателей.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod.webp" alt="iPod" loading="lazy"></span>
+      <div>
+      <span class="year">2001</span>
+      <a href="/apple-wiki/article/ipod">iPod</a>
+      <span class="muted">Линейка портативных медиаплееров Apple, которая выпускалась с 2001 по 2022 год.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⚙️</span>
+      <div>
+      <span class="year">2001</span>
+      <a href="/apple-wiki/article/operating-systems">Операционные системы</a>
+      <span class="muted">Системы Apple от первой System для Macintosh до современной macOS, iOS, iPadOS, watchOS и visionOS.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/powerbook-g4-titanium.webp" alt="PowerBook G4 (титановый)" loading="lazy"></span>
+      <div>
+      <span class="year">2001</span>
+      <a href="/apple-wiki/article/powerbook-g4-titanium">PowerBook G4 (титановый)</a>
+      <span class="muted">Титановый PowerBook G4 «TiBook»: ноутбук толщиной в один дюйм со сверхширокоформатным экраном.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-1.webp" alt="iPod (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2001</span>
+      <a href="/apple-wiki/article/ipod-1">iPod (1-е поколение)</a>
+      <span class="muted">Первый iPod 2001 года с механическим колесом прокрутки: «1000 песен в вашем кармане».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/imac-g4.webp" alt="iMac G4" loading="lazy"></span>
+      <div>
+      <span class="year">2002</span>
+      <a href="/apple-wiki/article/imac-g4">iMac G4</a>
+      <span class="muted">«Настольная лампа» от Apple: iMac с плоским LCD-экраном на подвижной стойке над полусферой с компьютером.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/emac.webp" alt="eMac" loading="lazy"></span>
+      <div>
+      <span class="year">2002</span>
+      <a href="/apple-wiki/article/emac">eMac</a>
+      <span class="muted">eMac («education Mac»): моноблок с 17-дюймовым плоским ЭЛТ-экраном и процессором G4, созданный для школ.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/display-cinema-hd.webp" alt="Apple Cinema HD Display (2002–2010)" loading="lazy"></span>
+      <div>
+      <span class="year">2002</span>
+      <a href="/apple-wiki/article/display-cinema-hd">Apple Cinema HD Display (2002–2010)</a>
+      <span class="muted">23- и 30-дюймовые широкоэкранные мониторы Apple, сначала в пластике, затем в алюминиевом корпусе.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🎵</span>
+      <div>
+      <span class="year">2002</span>
+      <a href="/apple-wiki/article/ipod-2">iPod (2-е поколение)</a>
+      <span class="muted">Второй iPod с сенсорным колесом Touch Wheel и первой поддержкой Windows.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/power-mac-g5.webp" alt="Power Mac G5" loading="lazy"></span>
+      <div>
+      <span class="year">2003</span>
+      <a href="/apple-wiki/article/power-mac-g5">Power Mac G5</a>
+      <span class="muted">Первый 64-разрядный Mac на процессоре IBM PowerPC G5 в алюминиевом корпусе «тёрка для сыра».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/powerbook-g4-aluminum.webp" alt="PowerBook G4 (алюминиевый)" loading="lazy"></span>
+      <div>
+      <span class="year">2003</span>
+      <a href="/apple-wiki/article/powerbook-g4-aluminum">PowerBook G4 (алюминиевый)</a>
+      <span class="muted">Алюминиевые PowerBook G4 на 12, 15 и 17 дюймов: последние PowerBook перед переходом Mac на Intel.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ibook-g4.webp" alt="iBook G4" loading="lazy"></span>
+      <div>
+      <span class="year">2003</span>
+      <a href="/apple-wiki/article/ibook-g4">iBook G4</a>
+      <span class="muted">Белый ноутбук для массового рынка на PowerPC G4: последний iBook перед переходом Apple на Intel.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-3.webp" alt="iPod (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2003</span>
+      <a href="/apple-wiki/article/ipod-3">iPod (3-е поколение)</a>
+      <span class="muted">Третий iPod с док-разъёмом и подсвеченными сенсорными кнопками над колесом.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/imac-g5.webp" alt="iMac G5" loading="lazy"></span>
+      <div>
+      <span class="year">2004</span>
+      <a href="/apple-wiki/article/imac-g5">iMac G5</a>
+      <span class="muted">Последний iMac на PowerPC: компьютер, спрятанный прямо за плоским экраном.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-4.webp" alt="iPod (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2004</span>
+      <a href="/apple-wiki/article/ipod-4">iPod (4-е поколение)</a>
+      <span class="muted">Четвёртый iPod, в котором появилось колесо Click Wheel, а позже и цветной экран.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🖼️</span>
+      <div>
+      <span class="year">2004</span>
+      <a href="/apple-wiki/article/ipod-photo">iPod photo</a>
+      <span class="muted">Первый iPod с цветным экраном, на котором можно смотреть фотографии и слайд-шоу.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🔴</span>
+      <div>
+      <span class="year">2004</span>
+      <a href="/apple-wiki/article/ipod-u2">iPod U2 Special Edition</a>
+      <span class="muted">Чёрный iPod с красным колесом и автографами участников U2, ставший коллекционной редкостью.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-mini.webp" alt="iPod mini" loading="lazy"></span>
+      <div>
+      <span class="year">2004</span>
+      <a href="/apple-wiki/article/ipod-mini">iPod mini</a>
+      <span class="muted">Компактный алюминиевый плеер в цветных корпусах, средняя модель линейки iPod в 2004–2005 годах.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/mac-mini-1.webp" alt="Mac mini (1-е поколение, 2005)" loading="lazy"></span>
+      <div>
+      <span class="year">2005</span>
+      <a href="/apple-wiki/article/mac-mini-1">Mac mini (1-е поколение, 2005)</a>
+      <span class="muted">Первый Mac mini — крошечный и недорогой настольный Mac без монитора, клавиатуры и мыши, показанный в 2005 году.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-5.webp" alt="iPod (5-е поколение, с видео)" loading="lazy"></span>
+      <div>
+      <span class="year">2005</span>
+      <a href="/apple-wiki/article/ipod-5">iPod (5-е поколение, с видео)</a>
+      <span class="muted">Первый iPod, умеющий воспроизводить видео: тоньше, с большим экраном, в белом и чёрном корпусе.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-nano-1.webp" alt="iPod nano (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2005</span>
+      <a href="/apple-wiki/article/ipod-nano-1">iPod nano (1-е поколение)</a>
+      <span class="muted">Первый iPod nano: крошечный флэш-плеер, заменивший iPod mini.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-1.webp" alt="iPod shuffle (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2005</span>
+      <a href="/apple-wiki/article/ipod-shuffle-1">iPod shuffle (1-е поколение)</a>
+      <span class="muted">Первый плеер iPod shuffle: крошечный флеш-плеер без экрана, созданный для прослушивания музыки в случайном порядке.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macbook.webp" alt="MacBook" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/macbook">MacBook</a>
+      <span class="muted">Марка ноутбуков Apple: сейчас это MacBook Air, MacBook Pro и MacBook Neo.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-original.webp" alt="MacBook (2006–2012)" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/macbook-original">MacBook (2006–2012)</a>
+      <span class="muted">Недорогой ноутбук Apple для дома и учёбы, который в 2006 году заменил iBook и 12-дюймовый PowerBook.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macbook-pro-1.webp" alt="MacBook Pro (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/macbook-pro-1">MacBook Pro (1-е поколение)</a>
+      <span class="muted">Первый MacBook Pro: корпус PowerBook G4, но с процессорами Intel вместо PowerPC.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/imac-intel.webp" alt="iMac на Intel (2006–2012)" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/imac-intel">iMac на Intel (2006–2012)</a>
+      <span class="muted">iMac на процессорах Intel: от Core Duo в белом корпусе до алюминиевых моделей с 20-, 24- и 27-дюймовыми экранами.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/mac-pro-1.webp" alt="Mac Pro (1-е поколение, 2006–2013)" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/mac-pro-1">Mac Pro (1-е поколение, 2006–2013)</a>
+      <span class="muted">Первый Mac Pro: алюминиевая рабочая станция на процессорах Intel Xeon, пришедшая на смену Power Mac G5.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-nano-2.webp" alt="iPod nano (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/ipod-nano-2">iPod nano (2-е поколение)</a>
+      <span class="muted">Второй iPod nano: алюминиевый корпус в цветах, как у iPod mini, и более яркий экран.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-2.webp" alt="iPod shuffle (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2006</span>
+      <a href="/apple-wiki/article/ipod-shuffle-2">iPod shuffle (2-е поколение)</a>
+      <span class="muted">Второй iPod shuffle: крошечный алюминиевый плеер со встроенной прищепкой, самый «носимый» iPod.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-launch.webp" alt="iPhone (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2007</span>
+      <a href="/apple-wiki/article/iphone-launch">iPhone (1-е поколение)</a>
+      <span class="muted">Первый iPhone: как Apple в 2007 году «заново изобрела телефон».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/iphone.webp" alt="iPhone" loading="lazy"></span>
+      <div>
+      <span class="year">2007</span>
+      <a href="/apple-wiki/article/iphone">iPhone</a>
+      <span class="muted">Линейка смартфонов Apple, которая выходит с 2007 года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-classic.webp" alt="iPod classic" loading="lazy"></span>
+      <div>
+      <span class="year">2007</span>
+      <a href="/apple-wiki/article/ipod-classic">iPod classic</a>
+      <span class="muted">Последний полноразмерный iPod с жёстким диском до 160 ГБ и колесом Click Wheel.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-nano-3.webp" alt="iPod nano (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2007</span>
+      <a href="/apple-wiki/article/ipod-nano-3">iPod nano (3-е поколение)</a>
+      <span class="muted">Третий iPod nano: более широкий корпус, больший экран и воспроизведение видео.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-1.webp" alt="iPod touch (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2007</span>
+      <a href="/apple-wiki/article/ipod-touch-1">iPod touch (1-е поколение)</a>
+      <span class="muted">Первый iPod touch: первый iPod с Wi-Fi и Multi-Touch, по сути iPhone без телефона.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/app-store-icon.webp" alt="App Store" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/app-store">App Store</a>
+      <span class="muted">Магазин приложений Apple для iPhone, iPad, Apple TV и Apple Watch.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-3g.webp" alt="iPhone 3G" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/iphone-3g">iPhone 3G</a>
+      <span class="muted">Второй iPhone: первый с поддержкой сетей 3G, GPS и App Store.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/macbook-air-1.webp" alt="MacBook Air (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/macbook-air-1">MacBook Air (1-е поколение)</a>
+      <span class="muted">Первый MacBook Air: «самый тонкий ноутбук в мире», показанный Стивом Джобсом на Macworld 2008.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macbook-pro-2.webp" alt="MacBook Pro (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/macbook-pro-2">MacBook Pro (2-е поколение)</a>
+      <span class="muted">Второе поколение MacBook Pro: корпус unibody из цельного куска алюминия и первые порты Thunderbolt.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/display-led-cinema.webp" alt="Apple LED Cinema Display (2008–2011)" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/display-led-cinema">Apple LED Cinema Display (2008–2011)</a>
+      <span class="muted">Алюминиево-стеклянные мониторы Apple с LED-подсветкой, встроенной камерой iSight и кабелем MagSafe: 24 дюйма в 2008 году и 27 дюймов в 2010-м.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipod-nano-4.webp" alt="iPod nano (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/ipod-nano-4">iPod nano (4-е поколение)</a>
+      <span class="muted">Четвёртый iPod nano: вернулся к узкому корпусу, получил акселерометр, Genius и девять цветов.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-2.webp" alt="iPod touch (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2008</span>
+      <a href="/apple-wiki/article/ipod-touch-2">iPod touch (2-е поколение)</a>
+      <span class="muted">Второй iPod touch: новый корпус с изогнутой металлической спинкой, встроенный динамик и кнопки громкости.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-3gs.webp" alt="iPhone 3GS" loading="lazy"></span>
+      <div>
+      <span class="year">2009</span>
+      <a href="/apple-wiki/article/iphone-3gs">iPhone 3GS</a>
+      <span class="muted">Третье поколение iPhone: вдвое быстрее iPhone 3G, с видеосъёмкой и голосовым управлением.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-nano-5.webp" alt="iPod nano (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2009</span>
+      <a href="/apple-wiki/article/ipod-nano-5">iPod nano (5-е поколение)</a>
+      <span class="muted">Пятый iPod nano: со встроенной видеокамерой, FM-радио и шагомером.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-3.webp" alt="iPod shuffle (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2009</span>
+      <a href="/apple-wiki/article/ipod-shuffle-3">iPod shuffle (3-е поколение)</a>
+      <span class="muted">Третий iPod shuffle: «первый плеер, который с вами разговаривает» — без кнопок на корпусе, с функцией VoiceOver.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-3.webp" alt="iPod touch (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2009</span>
+      <a href="/apple-wiki/article/ipod-touch-3">iPod touch (3-е поколение)</a>
+      <span class="muted">Третий iPod touch: начинка iPhone 3GS, Voice Control и VoiceOver.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad.webp" alt="iPad" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/ipad">iPad</a>
+      <span class="muted">Линейка планшетов Apple: iPad, iPad mini, iPad Air и iPad Pro.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-4.webp" alt="iPhone 4" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/iphone-4">iPhone 4</a>
+      <span class="muted">iPhone с новым дизайном, дисплеем Retina и видеозвонками FaceTime, вокруг которого разгорелся «Antennagate».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipad-1.webp" alt="iPad (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/ipad-1">iPad (1-е поколение)</a>
+      <span class="muted">Первый iPad: планшет, который Стив Джобс показал в январе 2010 года и с которого началась вся линейка.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-2.webp" alt="MacBook Air (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/macbook-air-2">MacBook Air (2-е поколение)</a>
+      <span class="muted">Перепроектированный MacBook Air 2010 года с флеш-накопителем и новой 11,6-дюймовой моделью.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/mac-mini-2.webp" alt="Mac mini (2-е поколение, 2010)" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/mac-mini-2">Mac mini (2-е поколение, 2010)</a>
+      <span class="muted">Mac mini в цельном алюминиевом корпусе: от Intel Core 2 Duo в 2010 году до Apple M1 и M2.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-nano-6.webp" alt="iPod nano (6-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/ipod-nano-6">iPod nano (6-е поколение)</a>
+      <span class="muted">Шестой iPod nano: квадратный плеер с сенсорным Multi-Touch-экраном.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-4.webp" alt="iPod shuffle (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/ipod-shuffle-4">iPod shuffle (4-е поколение)</a>
+      <span class="muted">Четвёртый и последний iPod shuffle: возвращение кнопок на корпусе и VoiceOver на 29 языках.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipod-touch-4.webp" alt="iPod touch (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2010</span>
+      <a href="/apple-wiki/article/ipod-touch-4">iPod touch (4-е поколение)</a>
+      <span class="muted">Четвёртый iPod touch: чип A4, дисплей Retina и камеры FaceTime и iSight.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout logo" src="/apple-wiki/static/img/siri.webp" alt="Siri" loading="lazy"></span>
+      <div>
+      <span class="year">2011</span>
+      <a href="/apple-wiki/article/siri">Siri</a>
+      <span class="muted">Голосовой помощник Apple, которому можно задать вопрос или дать команду.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-4s.webp" alt="iPhone 4S" loading="lazy"></span>
+      <div>
+      <span class="year">2011</span>
+      <a href="/apple-wiki/article/iphone-4s">iPhone 4S</a>
+      <span class="muted">Пятое поколение iPhone: процессор A5, камера на 8 мегапикселей и первый голосовой помощник Siri.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-2.webp" alt="iPad 2" loading="lazy"></span>
+      <div>
+      <span class="year">2011</span>
+      <a href="/apple-wiki/article/ipad-2">iPad 2</a>
+      <span class="muted">Второй iPad: тоньше и быстрее оригинала, с двумя камерами, FaceTime и магнитной обложкой Smart Cover.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/display-thunderbolt.webp" alt="Apple Thunderbolt Display (2011–2016)" loading="lazy"></span>
+      <div>
+      <span class="year">2011</span>
+      <a href="/apple-wiki/article/display-thunderbolt">Apple Thunderbolt Display (2011–2016)</a>
+      <span class="muted">27-дюймовый монитор Apple с интерфейсом Thunderbolt, камерой FaceTime HD и встроенным хабом портов.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-5.webp" alt="iPhone 5" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/iphone-5">iPhone 5</a>
+      <span class="muted">Шестое поколение iPhone: вытянутый 4-дюймовый экран, алюминиевый корпус, LTE и разъём Lightning.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-3.webp" alt="iPad (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/ipad-3">iPad (3-е поколение)</a>
+      <span class="muted">«Новый iPad» 2012 года: первый iPad с дисплеем Retina и мобильной связью 4G LTE.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-4.webp" alt="iPad (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/ipad-4">iPad (4-е поколение)</a>
+      <span class="muted">iPad с дисплеем Retina 2012 года: чип A6X и разъём Lightning всего через семь месяцев после третьего поколения.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipad-mini-1.webp" alt="iPad mini (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/ipad-mini-1">iPad mini (1-е поколение)</a>
+      <span class="muted">Первый iPad mini: уменьшенный планшет Apple с экраном 7,9 дюйма, вышедший в 2012 году.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-3.webp" alt="MacBook Pro (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/macbook-pro-3">MacBook Pro (3-е поколение)</a>
+      <span class="muted">Третье поколение MacBook Pro: первые экраны Retina, SSD и разъём MagSafe 2.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/imac-2012.webp" alt="iMac (2012)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/imac-2012">iMac (2012)</a>
+      <span class="muted">iMac конца 2012 года: сверхтонкий алюминиевый моноблок с Fusion Drive и без оптического привода.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-nano-7.webp" alt="iPod nano (7-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/ipod-nano-7">iPod nano (7-е поколение)</a>
+      <span class="muted">Седьмой и последний iPod nano: Multi-Touch-экран 2,5 дюйма, Lightning и Bluetooth.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-5.webp" alt="iPod touch (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2012</span>
+      <a href="/apple-wiki/article/ipod-touch-5">iPod touch (5-е поколение)</a>
+      <span class="muted">Пятый iPod touch: 4-дюймовый дисплей Retina, чип A5, разъём Lightning и камера iSight.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/touch-id.webp" alt="Touch ID" loading="lazy"></span>
+      <div>
+      <span class="year">2013</span>
+      <a href="/apple-wiki/article/touch-id">Touch ID</a>
+      <span class="muted">Сканер отпечатков пальцев, с которым в 2013 году появился iPhone 5s.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-5c.webp" alt="iPhone 5C" loading="lazy"></span>
+      <div>
+      <span class="year">2013</span>
+      <a href="/apple-wiki/article/iphone-5c">iPhone 5C</a>
+      <span class="muted">Недорогой разноцветный iPhone в пластиковом корпусе, по начинке почти повторяющий iPhone 5.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-5s.webp" alt="iPhone 5S" loading="lazy"></span>
+      <div>
+      <span class="year">2013</span>
+      <a href="/apple-wiki/article/iphone-5s">iPhone 5S</a>
+      <span class="muted">iPhone 5S — флагман 2013 года с Touch ID и первым в мире 64-битным процессором для смартфонов.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-mini-2.webp" alt="iPad mini 2" loading="lazy"></span>
+      <div>
+      <span class="year">2013</span>
+      <a href="/apple-wiki/article/ipad-mini-2">iPad mini 2</a>
+      <span class="muted">Второе поколение iPad mini: тот же корпус, но с дисплеем Retina и 64-битным чипом A7.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-1.webp" alt="iPad Air (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2013</span>
+      <a href="/apple-wiki/article/ipad-air-1">iPad Air (1-е поколение)</a>
+      <span class="muted">Первый iPad Air: более тонкий и лёгкий планшет Apple на 64-битном процессоре A7.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/mac-pro-2.webp" alt="Mac Pro (2-е поколение, 2013–2019)" loading="lazy"></span>
+      <div>
+      <span class="year">2013</span>
+      <a href="/apple-wiki/article/mac-pro-2">Mac Pro (2-е поколение, 2013–2019)</a>
+      <span class="muted">Mac Pro 2013 года: компактный цилиндр, за форму прозванный «мусорным ведром».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-6.webp" alt="iPhone 6 и 6 Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2014</span>
+      <a href="/apple-wiki/article/iphone-6">iPhone 6 и 6 Plus</a>
+      <span class="muted">iPhone 6 и 6 Plus — первые iPhone с большими экранами 4,7 и 5,5 дюйма, самая продаваемая модель в истории серии.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-mini-3.webp" alt="iPad mini 3" loading="lazy"></span>
+      <div>
+      <span class="year">2014</span>
+      <a href="/apple-wiki/article/ipad-mini-3">iPad mini 3</a>
+      <span class="muted">Третье поколение iPad mini: тот же чип A7, но с Touch ID и золотистым цветом.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-2.webp" alt="iPad Air 2" loading="lazy"></span>
+      <div>
+      <span class="year">2014</span>
+      <a href="/apple-wiki/article/ipad-air-2">iPad Air 2</a>
+      <span class="muted">Второй iPad Air: первый iPad с Touch ID и чипом A8X.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/watch-1.webp" alt="Apple Watch (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2014</span>
+      <a href="/apple-wiki/article/watch-1">Apple Watch (1-е поколение)</a>
+      <span class="muted">Самые первые Apple Watch, показанные в 2014 году и позже получившие неофициальное имя «Series 0».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2014</span>
+      <a href="/apple-wiki/article/watch-edition">Apple Watch Edition</a>
+      <span class="muted">Самая дорогая линейка Apple Watch: от золотых корпусов 2015 года до керамики и титана.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-sport.webp" alt="Apple Watch Sport" loading="lazy"></span>
+      <div>
+      <span class="year">2014</span>
+      <a href="/apple-wiki/article/watch-sport">Apple Watch Sport</a>
+      <span class="muted">Младшая и самая доступная версия первых Apple Watch в лёгком алюминиевом корпусе.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch.webp" alt="Apple Watch" loading="lazy"></span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/watch">Apple Watch</a>
+      <span class="muted">Линейка умных часов Apple: Apple Watch, Apple Watch SE и Apple Watch Ultra.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-6s.webp" alt="iPhone 6s и 6s Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/iphone-6s">iPhone 6s и 6s Plus</a>
+      <span class="muted">iPhone 6s и 6s Plus — смартфоны 2015 года с 3D Touch, Taptic Engine и камерой на 12 мегапикселей в корпусе прежнего дизайна.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipad-mini-4.webp" alt="iPad mini 4" loading="lazy"></span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/ipad-mini-4">iPad mini 4</a>
+      <span class="muted">Четвёртый iPad mini: тоньше и легче предшественников, с двухъядерным чипом A8.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-1.webp" alt="iPad Pro (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/ipad-pro-1">iPad Pro (1-е поколение)</a>
+      <span class="muted">Первый iPad Pro: флагманский планшет Apple 2015 года с Apple Pencil и процессором A9X.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macbook-retina.webp" alt="MacBook (2015–2019)" loading="lazy"></span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/macbook-retina">MacBook (2015–2019)</a>
+      <span class="muted">Сверхтонкий и лёгкий 12-дюймовый MacBook с дисплеем Retina и единственным портом USB-C.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/watch-hermes">Apple Watch Hermès</a>
+      <span class="muted">Совместная линейка Apple и парижского дома Hermès: корпуса из стали и титана и фирменные кожаные ремешки.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-6.webp" alt="iPod touch (6-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2015</span>
+      <a href="/apple-wiki/article/ipod-touch-6">iPod touch (6-е поколение)</a>
+      <span class="muted">Шестой iPod touch: чип A8 и до 128 ГБ памяти — первое крупное обновление линейки за два с половиной года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/airpods.webp" alt="AirPods" loading="lazy"></span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/airpods">AirPods</a>
+      <span class="muted">Линейка беспроводных Bluetooth-наушников Apple.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-se-1.webp" alt="iPhone SE (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/iphone-se-1">iPhone SE (1-е поколение)</a>
+      <span class="muted">iPhone SE первого поколения — компактный смартфон 2016 года в корпусе iPhone 5s с начинкой iPhone 6s.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-7.webp" alt="iPhone 7 и 7 Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/iphone-7">iPhone 7 и 7 Plus</a>
+      <span class="muted">iPhone 7 и 7 Plus — смартфоны 2016 года с защитой от воды, процессором A10 Fusion и без разъёма для наушников.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/macbook-pro-4.webp" alt="MacBook Pro (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/macbook-pro-4">MacBook Pro (4-е поколение)</a>
+      <span class="muted">Четвёртое поколение MacBook Pro: Touch Bar, чип безопасности Apple T1, клавиатура Magic Keyboard и переход на Apple M1.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/watch-s1">Apple Watch Series 1</a>
+      <span class="muted">Алюминиевые Apple Watch 2016 года на более быстром процессоре S1P — недорогая версия рядом с Series 2.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/watch-s2">Apple Watch Series 2</a>
+      <span class="muted">Первые водонепроницаемые Apple Watch со встроенным GPS и яркостью 1000 нит.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-nike.webp" alt="Apple Watch Nike" loading="lazy"></span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/watch-nike">Apple Watch Nike</a>
+      <span class="muted">Спортивная линейка Apple Watch в сотрудничестве с Nike: фирменные ремешки и циферблаты.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/airpods-1.webp" alt="AirPods (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2016</span>
+      <a href="/apple-wiki/article/airpods-1">AirPods (1-е поколение)</a>
+      <span class="muted">Первые AirPods: беспроводные наушники Apple с чипом W1, представленные вместе с iPhone 7.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout logo" src="/apple-wiki/static/img/face-id.webp" alt="Face ID" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/face-id">Face ID</a>
+      <span class="muted">Технология распознавания лиц Apple, которая появилась в iPhone X в 2017 году.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-8.webp" alt="iPhone 8 и 8 Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/iphone-8">iPhone 8 и 8 Plus</a>
+      <span class="muted">iPhone 8 и 8 Plus — последние iPhone с кнопкой «Домой» и стеклянной задней панелью для беспроводной зарядки.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-x.webp" alt="iPhone X" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/iphone-x">iPhone X</a>
+      <span class="muted">Юбилейный iPhone 2017 года: безрамочный OLED-экран, Face ID и отказ от кнопки «Домой».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipad-5.webp" alt="iPad (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/ipad-5">iPad (5-е поколение)</a>
+      <span class="muted">Недорогой iPad 2017 года с чипом A9, первый за пять лет, который назвали просто «iPad».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-2.webp" alt="iPad Pro (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/ipad-pro-2">iPad Pro (2-е поколение)</a>
+      <span class="muted">iPad Pro 2017 года с процессором A10X, экраном ProMotion на 120 Гц и новой моделью на 10,5 дюйма.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/imac-pro.webp" alt="iMac Pro" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/imac-pro">iMac Pro</a>
+      <span class="muted">Флагманский профессиональный моноблок Apple 2017 года на Intel Xeon W с дисплеем Retina 5K.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/watch-s3.webp" alt="Apple Watch Series 3" loading="lazy"></span>
+      <div>
+      <span class="year">2017</span>
+      <a href="/apple-wiki/article/watch-s3">Apple Watch Series 3</a>
+      <span class="muted">Первые Apple Watch с сотовой связью — и самые долгоживущие в линейке: почти четыре года в продаже.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-xr.webp" alt="iPhone XR" loading="lazy"></span>
+      <div>
+      <span class="year">2018</span>
+      <a href="/apple-wiki/article/iphone-xr">iPhone XR</a>
+      <span class="muted">Более доступный iPhone 2018 года с LCD-экраном Liquid Retina, одной камерой и яркими цветами корпуса.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-xs.webp" alt="iPhone XS и XS Max" loading="lazy"></span>
+      <div>
+      <span class="year">2018</span>
+      <a href="/apple-wiki/article/iphone-xs">iPhone XS и XS Max</a>
+      <span class="muted">iPhone XS и XS Max 2018 года: OLED-экраны 5,8 и 6,5 дюйма, чип A12 Bionic и последние iPhone с суффиксом «S».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipad-6.webp" alt="iPad (6-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2018</span>
+      <a href="/apple-wiki/article/ipad-6">iPad (6-е поколение)</a>
+      <span class="muted">iPad 2018 года для школ: чип A10 Fusion и первая поддержка Apple Pencil в обычном iPad.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-3.webp" alt="iPad Pro (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2018</span>
+      <a href="/apple-wiki/article/ipad-pro-3">iPad Pro (3-е поколение)</a>
+      <span class="muted">Переработанный iPad Pro 2018 года: экран во всю лицевую панель, Face ID и USB-C.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macbook-air-3.webp" alt="MacBook Air (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2018</span>
+      <a href="/apple-wiki/article/macbook-air-3">MacBook Air (3-е поколение)</a>
+      <span class="muted">MacBook Air с экраном Retina и USB-C, а в 2020 году — первый MacBook Air на чипе Apple M1.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/watch-s4.webp" alt="Apple Watch Series 4" loading="lazy"></span>
+      <div>
+      <span class="year">2018</span>
+      <a href="/apple-wiki/article/watch-s4">Apple Watch Series 4</a>
+      <span class="muted">Apple Watch четвёртого поколения — первые часы линейки с новыми, более крупными корпусами 40 и 44 мм.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-11.webp" alt="iPhone 11" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/iphone-11">iPhone 11</a>
+      <span class="muted">iPhone 11 2019 года: первый базовый iPhone с двойной камерой, чипом A13 Bionic и экраном Liquid Retina.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-11-pro.webp" alt="iPhone 11 Pro и 11 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/iphone-11-pro">iPhone 11 Pro и 11 Pro Max</a>
+      <span class="muted">Флагманы 2019 года с OLED-экранами, чипом A13 Bionic и первой в iPhone тройной камерой.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-7.webp" alt="iPad (7-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/ipad-7">iPad (7-е поколение)</a>
+      <span class="muted">Бюджетный iPad 2019 года, первый в базовой линейке с большим 10,2-дюймовым экраном Retina.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipad-mini-5.webp" alt="iPad mini (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/ipad-mini-5">iPad mini (5-е поколение)</a>
+      <span class="muted">Пятый iPad mini: тот же корпус, но с чипом A12 Bionic и поддержкой Apple Pencil первого поколения.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/ipad-air-3.webp" alt="iPad Air (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/ipad-air-3">iPad Air (3-е поколение)</a>
+      <span class="muted">iPad Air 2019 года: возвращение линейки Air с 10,5-дюймовым экраном, чипом A12 Bionic и поддержкой Apple Pencil.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/mac-pro-3.webp" alt="Mac Pro (3-е поколение, 2019–2026)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/mac-pro-3">Mac Pro (3-е поколение, 2019–2026)</a>
+      <span class="muted">Mac Pro 2019 года: возвращение к конструкции башни, а также версия для монтажа в стойку.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/display-pro-xdr.webp" alt="Pro Display XDR" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/display-pro-xdr">Pro Display XDR</a>
+      <span class="muted">Профессиональный 6K-монитор Apple с поддержкой XDR, представленный вместе с Mac Pro 2019 года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-s5.webp" alt="Apple Watch Series 5" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/watch-s5">Apple Watch Series 5</a>
+      <span class="muted">Пятое поколение Apple Watch, первые часы Apple с дисплеем Always-On Retina.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipod-touch-7.webp" alt="iPod touch (7-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/ipod-touch-7">iPod touch (7-е поколение)</a>
+      <span class="muted">Седьмой и последний iPod touch: чип A10 Fusion, до 256 ГБ памяти — последний iPod, снятый с производства.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/airpods-2.webp" alt="AirPods (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/airpods-2">AirPods (2-е поколение)</a>
+      <span class="muted">Второе поколение AirPods с чипом H1, функцией «Привет, Siri» и футляром с беспроводной зарядкой.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/airpods-pro-1.webp" alt="AirPods Pro (1-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2019</span>
+      <a href="/apple-wiki/article/airpods-pro-1">AirPods Pro (1-е поколение)</a>
+      <span class="muted">Первые AirPods Pro: вкладыши с активным шумоподавлением, силиконовыми амбушюрами и защитой от воды IPX4.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/apple-silicon.webp" alt="Apple silicon" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/apple-silicon">Apple silicon</a>
+      <span class="muted">Собственные процессоры Apple для iPhone, iPad, Mac, часов, наушников и других устройств.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-se-2.webp" alt="iPhone SE (2-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/iphone-se-2">iPhone SE (2-е поколение)</a>
+      <span class="muted">Доступный iPhone 2020 года в корпусе iPhone 8 с мощным чипом A13 Bionic.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-12.webp" alt="iPhone 12 и 12 mini" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/iphone-12">iPhone 12 и 12 mini</a>
+      <span class="muted">iPhone 12 и 12 mini: первые iPhone с 5G, плоскими гранями и магнитной зарядкой MagSafe.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-12-pro.webp" alt="iPhone 12 Pro и 12 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/iphone-12-pro">iPhone 12 Pro и 12 Pro Max</a>
+      <span class="muted">iPhone 12 Pro и 12 Pro Max: флагманы 2020 года из нержавеющей стали с тремя камерами и LiDAR.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-8.webp" alt="iPad (8-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/ipad-8">iPad (8-е поколение)</a>
+      <span class="muted">iPad 2020 года с процессором A12 Bionic в корпусе прежнего 10,2-дюймового iPad.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-4.webp" alt="iPad Air (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/ipad-air-4">iPad Air (4-е поколение)</a>
+      <span class="muted">iPad Air 2020 года: экран Liquid Retina на 10,9 дюйма, чип A14 Bionic, Touch ID в кнопке питания и порт USB-C.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-4.webp" alt="iPad Pro (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/ipad-pro-4">iPad Pro (4-е поколение)</a>
+      <span class="muted">iPad Pro 2020 года: процессор A12Z, сканер LiDAR и поддержка трекпада.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/watch-s6">Apple Watch Series 6</a>
+      <span class="muted">Шестое поколение Apple Watch с датчиком уровня кислорода в крови, ЭКГ и новым процессором S6.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/watch-se-1">Apple Watch SE (1-е поколение)</a>
+      <span class="muted">Первые бюджетные Apple Watch SE: процессор от Series 5 и экран от Series 4 по более доступной цене.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/airpods-max.webp" alt="AirPods Max" loading="lazy"></span>
+      <div>
+      <span class="year">2020</span>
+      <a href="/apple-wiki/article/airpods-max">AirPods Max</a>
+      <span class="muted">Полноразмерные накладные наушники Apple с чипом H1, активным шумоподавлением и Digital Crown.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-13.webp" alt="iPhone 13 и 13 mini" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/iphone-13">iPhone 13 и 13 mini</a>
+      <span class="muted">iPhone 13 и 13 mini: модели 2021 года с чипом A15 Bionic, меньшей «чёлкой» и диагональной камерой.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-13-pro.webp" alt="iPhone 13 Pro и 13 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/iphone-13-pro">iPhone 13 Pro и 13 Pro Max</a>
+      <span class="muted">iPhone 13 Pro и 13 Pro Max: флагманы 2021 года с чипом A15 с пятиядерной графикой и тремя камерами.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-9.webp" alt="iPad (9-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/ipad-9">iPad (9-е поколение)</a>
+      <span class="muted">iPad 2021 года с чипом A13 Bionic и новой фронтальной камерой — последний iPad с кнопкой «Домой».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipad-mini-6.webp" alt="iPad mini (6-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/ipad-mini-6">iPad mini (6-е поколение)</a>
+      <span class="muted">Шестой iPad mini: новый дизайн, экран Liquid Retina 8,3 дюйма, чип A15 Bionic и 5G.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-5.webp" alt="iPad Pro (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/ipad-pro-5">iPad Pro (5-е поколение)</a>
+      <span class="muted">iPad Pro 2021 года — первый iPad с процессором Apple M1, 5G и mini-LED-экраном Liquid Retina XDR у 12,9-дюймовой модели.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-5.webp" alt="MacBook Pro (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/macbook-pro-5">MacBook Pro (5-е поколение)</a>
+      <span class="muted">Пятое поколение MacBook Pro: 14- и 16-дюймовые модели с экраном Liquid Retina XDR и чипами Apple M1 Pro и M1 Max, позднее линейки M2, M3, M4 и M5.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/imac-2021.webp" alt="iMac (2021, M1)" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/imac-2021">iMac (2021, M1)</a>
+      <span class="muted">Первый iMac на Apple Silicon: 24-дюймовый моноблок толщиной 11,5 мм в семи цветах.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-2021.webp" alt="MacBook Pro (14 и 16 дюймов, 2021)" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/macbook-pro-2021">MacBook Pro (14 и 16 дюймов, 2021)</a>
+      <span class="muted">Полностью переработанные MacBook Pro на чипах M1 Pro и M1 Max: с Mini LED экраном, MagSafe, HDMI и слотом SD.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-s7.webp" alt="Apple Watch Series 7" loading="lazy"></span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/watch-s7">Apple Watch Series 7</a>
+      <span class="muted">Седьмое поколение Apple Watch с увеличенным дисплеем и более быстрой зарядкой.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🎧</span>
+      <div>
+      <span class="year">2021</span>
+      <a href="/apple-wiki/article/airpods-3">AirPods (3-е поколение)</a>
+      <span class="muted">Третье поколение AirPods: новый дизайн с короткой ножкой, Spatial Audio и защита от воды IPX4.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-se-3.webp" alt="iPhone SE (3-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/iphone-se-3">iPhone SE (3-е поколение)</a>
+      <span class="muted">iPhone SE третьего поколения: бюджетный iPhone 2022 года с чипом A15, 5G и кнопкой «Домой».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-14.webp" alt="iPhone 14 и 14 Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/iphone-14">iPhone 14 и 14 Plus</a>
+      <span class="muted">iPhone 14 и 14 Plus: модели 2022 года с Crash Detection, экстренным SOS по спутнику и большим экраном у версии Plus.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-14-pro.webp" alt="iPhone 14 Pro и 14 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/iphone-14-pro">iPhone 14 Pro и 14 Pro Max</a>
+      <span class="muted">Флагманские iPhone 2022 года с Dynamic Island, чипом A16 и 48-мегапиксельной камерой.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-10.webp" alt="iPad (10-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/ipad-10">iPad (10-е поколение)</a>
+      <span class="muted">Полностью обновлённый iPad 2022 года: без кнопки «Домой», с USB-C и экраном Liquid Retina.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-5.webp" alt="iPad Air (5-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/ipad-air-5">iPad Air (5-е поколение)</a>
+      <span class="muted">iPad Air 2022 года с чипом M1, камерой Center Stage и опциональной поддержкой 5G.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-6.webp" alt="iPad Pro (6-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/ipad-pro-6">iPad Pro (6-е поколение)</a>
+      <span class="muted">iPad Pro 2022 года на процессоре Apple M2 с поддержкой режима Apple Pencil hover.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-4.webp" alt="MacBook Air (4-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/macbook-air-4">MacBook Air (4-е поколение)</a>
+      <span class="muted">Плоский MacBook Air на чипах Apple M2, M3 и M4 с экраном Liquid Retina и зарядкой MagSafe 3.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m2.webp" alt="MacBook Air (M2, 2022–2023)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/macbook-air-m2">MacBook Air (M2, 2022–2023)</a>
+      <span class="muted">Полностью перерисованный MacBook Air на чипе Apple M2: плоский корпус, Liquid Retina, MagSafe и первая 15-дюймовая модель Air.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m2.webp" alt="MacBook Pro (M2, 2022–2023)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/macbook-pro-m2">MacBook Pro (M2, 2022–2023)</a>
+      <span class="muted">13-дюймовый MacBook Pro с Touch Bar на чипе M2 (2022) и 14/16-дюймовые модели на M2 Pro и M2 Max (2023).</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2022.webp" alt="Mac Studio (2022, M1 Max и M1 Ultra)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/mac-studio-2022">Mac Studio (2022, M1 Max и M1 Ultra)</a>
+      <span class="muted">Первый Mac Studio: компактная профессиональная рабочая станция Apple на чипах M1 Max и M1 Ultra.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/display-studio-2022.webp" alt="Studio Display (2022)" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/display-studio-2022">Studio Display (2022)</a>
+      <span class="muted">27-дюймовый 5K-монитор Apple с камерой Center Stage, шестью динамиками и чипом A13 Bionic.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-s8.webp" alt="Apple Watch Series 8" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/watch-s8">Apple Watch Series 8</a>
+      <span class="muted">Восьмое поколение Apple Watch с датчиком температуры тела и функцией Crash Detection.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/watch-se-2">Apple Watch SE (2-е поколение)</a>
+      <span class="muted">Недорогие Apple Watch SE с процессором S8, обнаружением аварии и лёгкой нейлоновой задней панелью.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-ultra-1.webp" alt="Apple Watch Ultra" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/watch-ultra-1">Apple Watch Ultra</a>
+      <span class="muted">Первые защищённые Apple Watch: титановый корпус 49 мм, Action Button и яркий экран.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/airpods-pro-2.webp" alt="AirPods Pro 2" loading="lazy"></span>
+      <div>
+      <span class="year">2022</span>
+      <a href="/apple-wiki/article/airpods-pro-2">AirPods Pro 2</a>
+      <span class="muted">Второе поколение AirPods Pro: чип H2, вдвое лучшее шумоподавление и позже — функции слухового аппарата.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-15.webp" alt="iPhone 15 и 15 Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/iphone-15">iPhone 15 и 15 Plus</a>
+      <span class="muted">Базовые iPhone 2023 года: Dynamic Island, порт USB-C и улучшенные камеры.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-15-pro.webp" alt="iPhone 15 Pro и 15 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/iphone-15-pro">iPhone 15 Pro и 15 Pro Max</a>
+      <span class="muted">Первые титановые iPhone: чип A17 Pro, кнопка Action и порт USB-C.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/imac-2023.webp" alt="iMac (2023–2024)" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/imac-2023">iMac (2023–2024)</a>
+      <span class="muted">24-дюймовый моноблок iMac на чипе Apple M3, а затем на M4.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m3.webp" alt="MacBook Pro (M3, 2023)" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/macbook-pro-m3">MacBook Pro (M3, 2023)</a>
+      <span class="muted">MacBook Pro 14 и 16 дюймов на чипах M3, M3 Pro и M3 Max: с новым цветом «чёрный космос» и более яркими экранами.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2023.webp" alt="Mac Studio (2023, M2 Max и M2 Ultra)" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/mac-studio-2023">Mac Studio (2023, M2 Max и M2 Ultra)</a>
+      <span class="muted">Обновление Mac Studio на чипах M2 Max и M2 Ultra, представленное на WWDC 2023.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-s9.webp" alt="Apple Watch Series 9" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/watch-s9">Apple Watch Series 9</a>
+      <span class="muted">Девятое поколение Apple Watch с чипом S9, жестом «двойное касание» и экраном яркостью 2000 нит.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-ultra-2.webp" alt="Apple Watch Ultra 2" loading="lazy"></span>
+      <div>
+      <span class="year">2023</span>
+      <a href="/apple-wiki/article/watch-ultra-2">Apple Watch Ultra 2</a>
+      <span class="muted">Второе поколение защищённых Apple Watch: процессор S9, жест «двойное касание» и экран 3000 нит.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/vision-pro.webp" alt="Apple Vision Pro" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/vision-pro">Apple Vision Pro</a>
+      <span class="muted">Гарнитура дополненной реальности Apple на системе visionOS.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-16.webp" alt="iPhone 16 и 16 Plus" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/iphone-16">iPhone 16 и 16 Plus</a>
+      <span class="muted">Базовые iPhone 2024 года с чипом A18, кнопкой Action и Camera Control.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-16-pro.webp" alt="iPhone 16 Pro и 16 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/iphone-16-pro">iPhone 16 Pro и 16 Pro Max</a>
+      <span class="muted">Титановые флагманы 2024 года с чипом A18 Pro, Camera Control и самыми большими в истории экранами iPhone.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-mini-7.webp" alt="iPad mini (7-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/ipad-mini-7">iPad mini (7-е поколение)</a>
+      <span class="muted">Седьмой iPad mini: прежний корпус, чип A17 Pro, 8 ГБ памяти и поддержка Apple Intelligence.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipad-air-6.webp" alt="iPad Air (6-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/ipad-air-6">iPad Air (6-е поколение)</a>
+      <span class="muted">iPad Air 2024 года с чипом M2: первый iPad Air с 13-дюймовой версией.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipad-pro-7.webp" alt="iPad Pro (7-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/ipad-pro-7">iPad Pro (7-е поколение)</a>
+      <span class="muted">iPad Pro на процессоре Apple M4 с двухслойным OLED-экраном и цветом «чёрный космос».</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/mac-mini-3.webp" alt="Mac mini (3-е поколение, 2024)" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/mac-mini-3">Mac mini (3-е поколение, 2024)</a>
+      <span class="muted">Заметно уменьшенный Mac mini на чипах Apple M4 и M4 Pro, показанный в 2024 году.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m3.webp" alt="MacBook Air (M3, 2024)" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/macbook-air-m3">MacBook Air (M3, 2024)</a>
+      <span class="muted">MacBook Air на чипе Apple M3 в 13- и 15-дюймовом вариантах: тот же корпус, что у M2, но с поддержкой двух внешних дисплеев при закрытой крышке.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m4.webp" alt="MacBook Pro (M4, 2024)" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/macbook-pro-m4">MacBook Pro (M4, 2024)</a>
+      <span class="muted">MacBook Pro 14 и 16 дюймов на чипах M4, M4 Pro и M4 Max: с Thunderbolt 5, камерой на 12 Мп и матовым экраном по выбору.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-s10.webp" alt="Apple Watch Series 10" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/watch-s10">Apple Watch Series 10</a>
+      <span class="muted">Десятое поколение Apple Watch: самые тонкие на тот момент часы Apple с чипом S10 и увеличенным экраном.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/airpods-4.webp" alt="AirPods 4" loading="lazy"></span>
+      <div>
+      <span class="year">2024</span>
+      <a href="/apple-wiki/article/airpods-4">AirPods 4</a>
+      <span class="muted">Четвёртое поколение AirPods: открытые наушники с чипом H2, кейсом USB-C и версией с активным шумоподавлением.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-16e.webp" alt="iPhone 16e" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/iphone-16e">iPhone 16e</a>
+      <span class="muted">Недорогой iPhone 2025 года с чипом A18, Face ID и первым модемом Apple C1.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-17.webp" alt="iPhone 17" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/iphone-17">iPhone 17</a>
+      <span class="muted">Базовый iPhone 2025 года с экраном 6,3 дюйма с ProMotion, новой сверхширокоугольной камерой на 48 Мп и чипом A19.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-air.webp" alt="iPhone Air" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/iphone-air">iPhone Air</a>
+      <span class="muted">Тончайший iPhone на момент выхода: толщина 5,6 мм, титановая рама и одна камера на 48 Мп.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-17-pro.webp" alt="iPhone 17 Pro и 17 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/iphone-17-pro">iPhone 17 Pro и 17 Pro Max</a>
+      <span class="muted">Топовые iPhone 2025 года на алюминиевом корпусе с чипом A19 Pro и тройной камерой с новым 4-кратным телеобъективом на 48 Мп.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/ipad-11.webp" alt="iPad (11-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/ipad-11">iPad (11-е поколение)</a>
+      <span class="muted">iPad начального уровня 2025 года с чипом A16 Bionic и 11-дюймовым экраном Liquid Retina.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipad-air-7.webp" alt="iPad Air (7-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/ipad-air-7">iPad Air (7-е поколение)</a>
+      <span class="muted">iPad Air 2025 года с чипом M3 и новой Magic Keyboard.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/ipad-pro-8.webp" alt="iPad Pro (8-е поколение)" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/ipad-pro-8">iPad Pro (8-е поколение)</a>
+      <span class="muted">iPad Pro на процессоре Apple M5: те же размеры и дизайн, но больше оперативной памяти и быстрее графика.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m4.webp" alt="MacBook Air (M4, 2025)" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/macbook-air-m4">MacBook Air (M4, 2025)</a>
+      <span class="muted">MacBook Air на чипе Apple M4: дешевле на 100 долларов, 16 ГБ памяти в базе, камера Center Stage и новый цвет Sky Blue.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m5.webp" alt="MacBook Pro (M5, 2025–2026)" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/macbook-pro-m5">MacBook Pro (M5, 2025–2026)</a>
+      <span class="muted">Текущие MacBook Pro 14 и 16 дюймов на чипах M5, M5 Pro и M5 Max с чипом Apple N1, Wi-Fi 7 и Bluetooth 6.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2025.webp" alt="Mac Studio (2025, M4 Max и M3 Ultra)" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/mac-studio-2025">Mac Studio (2025, M4 Max и M3 Ultra)</a>
+      <span class="muted">Mac Studio 2025 года: чип M4 Max и, неожиданно, M3 Ultra, а также первая поддержка Thunderbolt 5.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/watch-s11">Apple Watch Series 11</a>
+      <span class="muted">Одиннадцатое поколение Apple Watch с watchOS 26, определением гипертонии и стеклом с керамическим покрытием.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/watch-se-3">Apple Watch SE 3</a>
+      <span class="muted">Третье поколение недорогих Apple Watch SE: процессор S10, всегда включённый экран и быстрая зарядка.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/watch-ultra-3.webp" alt="Apple Watch Ultra 3" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/watch-ultra-3">Apple Watch Ultra 3</a>
+      <span class="muted">Третье поколение защищённых Apple Watch: процессор S10, спутниковая связь для экстренных вызовов и больше автономности.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/airpods-pro-3.webp" alt="AirPods Pro 3" loading="lazy"></span>
+      <div>
+      <span class="year">2025</span>
+      <a href="/apple-wiki/article/airpods-pro-3">AirPods Pro 3</a>
+      <span class="muted">Третье поколение AirPods Pro: лучшее шумоподавление, датчики пульса и Live Translation.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-17e.webp" alt="iPhone 17e" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/iphone-17e">iPhone 17e</a>
+      <span class="muted">Недорогой iPhone 2026 года с чипом A19, Face ID, MagSafe и экраном 6,1 дюйма с вырезом.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-18-pro.webp" alt="iPhone 18 Pro и 18 Pro Max" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/iphone-18-pro">iPhone 18 Pro и 18 Pro Max</a>
+      <span class="muted">Топовые iPhone 2026 года с чипом A20 Pro, камерой с переменной физической диафрагмой и зарядкой до 50 % за 15 минут.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/iphone-duo.webp" alt="iPhone Duo" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/iphone-duo">iPhone Duo</a>
+      <span class="muted">Первый складной iPhone: книжный смартфон с двумя экранами (5,4 и 7,6 дюйма) и Touch ID в боковой кнопке.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">📲</span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/ipad-air-8">iPad Air (8-е поколение)</a>
+      <span class="muted">iPad Air (M4) 2026 года: чип M4, Wi-Fi 7 и 11- и 13-дюймовые модели.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic cutout" src="/apple-wiki/static/img/macbook-neo.webp" alt="MacBook Neo" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/macbook-neo">MacBook Neo</a>
+      <span class="muted">Самый недорогой ноутбук в истории Apple: первый Mac с чипом серии A вместо M.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m5.webp" alt="MacBook Air (M5, 2026)" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/macbook-air-m5">MacBook Air (M5, 2026)</a>
+      <span class="muted">Текущий MacBook Air на чипе Apple M5: 512 ГБ накопителя в базе, чип N1, Wi-Fi 7 и Bluetooth 6.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic photo" src="/apple-wiki/static/img/mac-mini-m6.webp" alt="Mac mini (M6 и M5 Pro, 2026)" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/mac-mini-m6">Mac mini (M6 и M5 Pro, 2026)</a>
+      <span class="muted">Обновлённый Mac mini 2026 года на чипах Apple M6 и M5 Pro в компактном корпусе 2024 года.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2026.webp" alt="Mac Studio (2026, M5 Max и M5 Ultra)" loading="lazy"></span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/mac-studio-2026">Mac Studio (2026, M5 Max и M5 Ultra)</a>
+      <span class="muted">Текущий Mac Studio на чипах M5 Max и M5 Ultra с Wi-Fi 7, чипом N1 и кластеризацией по Thunderbolt.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/watch-s12">Apple Watch Series 12</a>
+      <span class="muted">Двенадцатое поколение Apple Watch с чипом S11, обновлённой системой датчиков здоровья и стеклом Ceramic Shield 2.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">⌚</span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/watch-ultra-4">Apple Watch Ultra 4</a>
+      <span class="muted">Четвёртое поколение защищённых Apple Watch Ultra: чип S11 и более частое измерение пульса.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🎧</span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/airpods-5">AirPods 5</a>
+      <span class="muted">Пятое поколение AirPods: тот же дизайн, что у AirPods 4, но с улучшенным активным шумоподавлением в обеих моделях.</span>
+      </div>
+    </li>
+  
+    <li>
+      <span class="thumb small">🎧</span>
+      <div>
+      <span class="year">2026</span>
+      <a href="/apple-wiki/article/airpods-max-2">AirPods Max 2</a>
+      <span class="muted">Второе поколение AirPods Max: чип H2, Bluetooth 5.3 и улучшенное шумоподавление.</span>
+      </div>
+    </li>
+  
+</ol>
+
+        </div>
+
+        
+        <aside class="rail">
+          
+          
+          <section class="rail-box">
+            <h3>Разделы</h3>
+            <ul class="rail-list">
+              
+                <li><a href="/apple-wiki/category/history">История</a> <span class="muted">4</span></li>
+              
+                <li><a href="/apple-wiki/category/people">Люди</a> <span class="muted">5</span></li>
+              
+                <li><a href="/apple-wiki/category/iphone">iPhone</a> <span class="muted">38</span></li>
+              
+                <li><a href="/apple-wiki/category/ipad">iPad</a> <span class="muted">35</span></li>
+              
+                <li><a href="/apple-wiki/category/mac">Mac</a> <span class="muted">81</span></li>
+              
+                <li><a href="/apple-wiki/category/watch">Apple Watch</a> <span class="muted">25</span></li>
+              
+                <li><a href="/apple-wiki/category/ipod">iPod</a> <span class="muted">28</span></li>
+              
+                <li><a href="/apple-wiki/category/airpods">AirPods</a> <span class="muted">11</span></li>
+              
+                <li><a href="/apple-wiki/category/tech">Технологии</a> <span class="muted">7</span></li>
+              
+              <li><a href="/apple-wiki/timeline">Хронология</a></li>
+            </ul>
+          </section>
+          
+        </aside>
+        
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <b>Энциклопедия Apple</b>
+        <p>История компании, люди, устройства и технологии. Учебный проект.</p>
+      </div>
+      <div>
+        <b>Разделы</b>
+        <ul>
+          
+            <li><a href="/apple-wiki/category/history">История</a></li>
+          
+            <li><a href="/apple-wiki/category/people">Люди</a></li>
+          
+            <li><a href="/apple-wiki/category/iphone">iPhone</a></li>
+          
+            <li><a href="/apple-wiki/category/ipad">iPad</a></li>
+          
+            <li><a href="/apple-wiki/category/mac">Mac</a></li>
+          
+            <li><a href="/apple-wiki/category/watch">Apple Watch</a></li>
+          
+            <li><a href="/apple-wiki/category/ipod">iPod</a></li>
+          
+            <li><a href="/apple-wiki/category/airpods">AirPods</a></li>
+          
+            <li><a href="/apple-wiki/category/tech">Технологии</a></li>
+          
+        </ul>
+      </div>
+      <div>
+        <b>Ещё</b>
+        <ul>
+          <li><a href="/apple-wiki/timeline">Хронология</a></li>
+          <li><a href="/apple-wiki/random">Случайная статья</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

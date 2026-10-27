@@ -1,0 +1,2048 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    // Тему выбираем до отрисовки страницы, чтобы не было вспышки светлой темы.
+    // Сохранённый выбор важнее настройки системы
+    (function () {
+      var theme;
+      try { theme = localStorage.getItem("theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <script src="/apple-wiki/static/glass.js"></script>
+  <script src="/apple-wiki/static/theme.js" defer></script>
+  <script src="/apple-wiki/static/suggest.js" defer></script>
+  
+  <title>Энциклопедия Apple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/apple-wiki/static/style.css">
+  <link rel="icon" type="image/png" href="/apple-wiki/static/img/favicon.png">
+</head>
+<body>
+  <!-- Узкая тёмная полоса слева, как на вики-сайтах -->
+  <nav class="side-nav">
+    <a class="side-logo" href="/apple-wiki/" title="Главная"><img src="/apple-wiki/static/img/apple-logo.webp" alt="Главная"></a>
+    <a href="/apple-wiki/timeline" title="Хронология" aria-label="Хронология">🕒</a>
+    <a href="/apple-wiki/random" title="Случайная статья" aria-label="Случайная статья">🎲</a>
+    <a href="#search" title="Поиск" aria-label="Поиск" onclick="document.querySelector('.search input').focus()">🔍</a>
+    <button type="button" id="theme-toggle" title="Тёмная тема" aria-label="Тёмная тема">🌙</button>
+    <button type="button" id="glass-toggle" title="Настройки Liquid Glass" aria-label="Настройки Liquid Glass">💧</button>
+  </nav>
+
+  <div class="wrap">
+    <header class="wiki-header">
+      <div class="wiki-title">
+        <a class="wiki-logo" href="/apple-wiki/"><img src="/apple-wiki/static/img/apple-logo.webp" alt=""></a>
+        <div>
+          <a class="wiki-name" href="/apple-wiki/">Энциклопедия Apple</a>
+          <span class="wiki-stats">Статей: <b>234</b></span>
+        </div>
+      </div>
+
+      <form class="search" id="search" action="/apple-wiki/search">
+        <input type="search" name="q" placeholder="Искать в энциклопедии…" aria-label="Поиск по энциклопедии" value=""
+               autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest-list"
+               data-index-url="/apple-wiki/search-index.json">
+        <ul class="suggest" id="suggest-list" role="listbox" hidden></ul>
+      </form>
+
+      <nav class="wiki-menu">
+        <div class="menu-item">
+          <a href="/apple-wiki/">Обзор<span class="caret"> ▾</span></a>
+          <ul class="dropdown">
+            <li><a href="/apple-wiki/">Главная</a></li>
+            <li><a href="/apple-wiki/timeline">Хронология</a></li>
+            <li><a href="/apple-wiki/random">Случайная статья</a></li>
+          </ul>
+        </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/history">История<span class="caret"> ▾</span></a>
+            
+              <ul class="dropdown">
+                
+                  <li><a href="/apple-wiki/article/apple-ii">Apple II</a></li>
+                
+                  <li><a href="/apple-wiki/article/macintosh">Macintosh 1984</a></li>
+                
+                  <li><a href="/apple-wiki/article/jobs-return">Возвращение Джобса</a></li>
+                
+                  <li><a href="/apple-wiki/article/founding">Основание Apple</a></li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/people">Люди<span class="caret"> ▾</span></a>
+            
+              <ul class="dropdown">
+                
+                  <li><a href="/apple-wiki/article/ternus">Джон Тёрнус</a></li>
+                
+                  <li><a href="/apple-wiki/article/ive">Джони Айв</a></li>
+                
+                  <li><a href="/apple-wiki/article/wozniak">Стив Возняк</a></li>
+                
+                  <li><a href="/apple-wiki/article/jobs">Стив Джобс</a></li>
+                
+                  <li><a href="/apple-wiki/article/cook">Тим Кук</a></li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/iphone">iPhone<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/iphone">Обзор: iPhone</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu wide">
+                      
+                        <li><a href="/apple-wiki/article/iphone-launch">iPhone (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-3g">iPhone 3G</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-3gs">iPhone 3GS</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-4">iPhone 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-4s">iPhone 4S</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-5">iPhone 5</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-5c">iPhone 5C</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-5s">iPhone 5S</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-6">iPhone 6</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-6s">iPhone 6s</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-7">iPhone 7</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-8">iPhone 8</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-x">iPhone X</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-xr">iPhone XR</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-xs">iPhone XS</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-11">iPhone 11</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-12">iPhone 12</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-13">iPhone 13</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-14">iPhone 14</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-15">iPhone 15</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-16">iPhone 16</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-17">iPhone 17</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-air">iPhone Air</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone Plus <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-6">iPhone 6 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-6s">iPhone 6s Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-7">iPhone 7 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-8">iPhone 8 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-xs">iPhone XS Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-14">iPhone 14 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-15">iPhone 15 Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-16">iPhone 16 Plus</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-12">iPhone 12 mini</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-13">iPhone 13 mini</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-11-pro">iPhone 11 Pro и 11 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-12-pro">iPhone 12 Pro и 12 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-13-pro">iPhone 13 Pro и 13 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-14-pro">iPhone 14 Pro и 14 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-15-pro">iPhone 15 Pro и 15 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-16-pro">iPhone 16 Pro и 16 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-17-pro">iPhone 17 Pro и 17 Pro Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-18-pro">iPhone 18 Pro и 18 Pro Max</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone Duo <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-duo">iPhone Duo</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone SE <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-se-1">iPhone SE (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-se-2">iPhone SE (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-se-3">iPhone SE (3-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/iphone">iPhone e <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/iphone-16e">iPhone 16e</a></li>
+                      
+                        <li><a href="/apple-wiki/article/iphone-17e">iPhone 17e</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/ipad">iPad<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/ipad">Обзор: iPad</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad">iPad <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-1">iPad (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-2">iPad 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-3">iPad (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-4">iPad (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-5">iPad (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-6">iPad (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-7">iPad (7-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-8">iPad (8-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-9">iPad (9-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-10">iPad (10-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-11">iPad (11-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad-mini">iPad mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-1">iPad mini (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-2">iPad mini 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-3">iPad mini 3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-4">iPad mini 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-5">iPad mini (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-6">iPad mini (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-mini-7">iPad mini (7-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad-Pro">iPad Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-1">iPad Pro (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-2">iPad Pro (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-3">iPad Pro (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-4">iPad Pro (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-5">iPad Pro (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-6">iPad Pro (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-7">iPad Pro (7-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-pro-8">iPad Pro (8-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipad#iPad-Air">iPad Air <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-1">iPad Air (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-2">iPad Air 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-3">iPad Air (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-4">iPad Air (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-5">iPad Air (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-6">iPad Air (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-7">iPad Air (7-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipad-air-8">iPad Air (8-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/mac">Mac<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/mac">Обзор: Mac</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#MacBook">MacBook <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/macbook">MacBook</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-original">MacBook (2006–2012)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-retina">MacBook (2015–2019)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-neo">MacBook Neo</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#MacBook-Air">MacBook Air <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-1">MacBook Air (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-2">MacBook Air (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-3">MacBook Air (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-4">MacBook Air (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m2">MacBook Air (M2, 2022–2023)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m3">MacBook Air (M3, 2024)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m4">MacBook Air (M4, 2025)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-air-m5">MacBook Air (M5, 2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#MacBook-Pro">MacBook Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-1">MacBook Pro (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-2">MacBook Pro (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-3">MacBook Pro (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-4">MacBook Pro (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-5">MacBook Pro (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-2021">MacBook Pro (14 и 16 дюймов, 2021)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m2">MacBook Pro (M2, 2022–2023)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m3">MacBook Pro (M3, 2023)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m4">MacBook Pro (M4, 2024)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macbook-pro-m5">MacBook Pro (M5, 2025–2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#iMac">iMac <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/imac">iMac</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-g3">iMac G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-g4">iMac G4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/emac">eMac</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-g5">iMac G5</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-intel">iMac на Intel (2006–2012)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-2012">iMac (2012)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-pro">iMac Pro</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-2021">iMac (2021, M1)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/imac-2023">iMac (2023–2024)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Mac-mini">Mac mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-1">Mac mini (1-е поколение, 2005)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-2">Mac mini (2-е поколение, 2010)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-3">Mac mini (3-е поколение, 2024)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-mini-m6">Mac mini (M6 и M5 Pro, 2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Mac-Studio">Mac Studio <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2022">Mac Studio (2022, M1 Max и M1 Ultra)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2023">Mac Studio (2023, M2 Max и M2 Ultra)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2025">Mac Studio (2025, M4 Max и M3 Ultra)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-studio-2026">Mac Studio (2026, M5 Max и M5 Ultra)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Mac-Pro">Mac Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/mac-pro-1">Mac Pro (1-е поколение, 2006–2013)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-pro-2">Mac Pro (2-е поколение, 2013–2019)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/mac-pro-3">Mac Pro (3-е поколение, 2019–2026)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Power-Mac">Power Mac <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/power-macintosh-6100">Power Macintosh 6100</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g3">Power Macintosh G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g3-bw">Power Macintosh G3 (синий и белый)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g4">Power Mac G4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g4-cube">Power Mac G4 Cube</a></li>
+                      
+                        <li><a href="/apple-wiki/article/power-mac-g5">Power Mac G5</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#PowerBook-и-iBook">PowerBook и iBook <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/powerbook-100">PowerBook 100</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-duo">PowerBook Duo</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-500">PowerBook серии 500</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-g3">PowerBook G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ibook-g3">iBook G3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-g4-titanium">PowerBook G4 (титановый)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/powerbook-g4-aluminum">PowerBook G4 (алюминиевый)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ibook-g4">iBook G4</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Macintosh">Macintosh <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu wide">
+                      
+                        <li><a href="/apple-wiki/article/macintosh-512k">Macintosh 512K</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-plus">Macintosh Plus</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-se">Macintosh SE</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-ii">Macintosh II</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-se-30">Macintosh SE/30</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-portable">Macintosh Portable</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-classic">Macintosh Classic</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-lc">Macintosh LC</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-quadra">Macintosh Quadra</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-performa">Macintosh Performa</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-color-classic">Macintosh Color Classic</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-centris">Macintosh Centris</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-tv">Macintosh TV</a></li>
+                      
+                        <li><a href="/apple-wiki/article/macintosh-20th">Twentieth Anniversary Macintosh</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/mac#Мониторы">Мониторы <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/display-applecolor-rgb">AppleColor RGB Monitor</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-applecolor-hr">AppleColor High-Resolution RGB Monitor</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-studio-1998">Apple Studio Display (1998–2004)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-cinema">Apple Cinema Display (1999–2009)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-cinema-hd">Apple Cinema HD Display (2002–2010)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-led-cinema">Apple LED Cinema Display (2008–2011)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-thunderbolt">Apple Thunderbolt Display (2011–2016)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-pro-xdr">Pro Display XDR</a></li>
+                      
+                        <li><a href="/apple-wiki/article/display-studio-2022">Studio Display (2022)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/watch">Apple Watch<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/watch">Обзор: Apple Watch</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Apple-Watch">Apple Watch <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu wide">
+                      
+                        <li><a href="/apple-wiki/article/watch-1">Apple Watch (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s1">Apple Watch Series 1</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s2">Apple Watch Series 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s3">Apple Watch Series 3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s4">Apple Watch Series 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s5">Apple Watch Series 5</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s6">Apple Watch Series 6</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s7">Apple Watch Series 7</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s8">Apple Watch Series 8</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s9">Apple Watch Series 9</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s10">Apple Watch Series 10</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s11">Apple Watch Series 11</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-s12">Apple Watch Series 12</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Apple-Watch-SE">Apple Watch SE <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/watch-se-1">Apple Watch SE (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-se-2">Apple Watch SE (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-se-3">Apple Watch SE 3</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Apple-Watch-Ultra">Apple Watch Ultra <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-1">Apple Watch Ultra</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-2">Apple Watch Ultra 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-3">Apple Watch Ultra 3</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-ultra-4">Apple Watch Ultra 4</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/watch#Особые-серии">Особые серии <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/watch-edition">Apple Watch Edition</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-sport">Apple Watch Sport</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-hermes">Apple Watch Hermès</a></li>
+                      
+                        <li><a href="/apple-wiki/article/watch-nike">Apple Watch Nike</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/ipod">iPod<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/ipod">Обзор: iPod</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod">iPod <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-1">iPod (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-2">iPod (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-3">iPod (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-4">iPod (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-photo">iPod photo</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-u2">iPod U2 Special Edition</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-5">iPod (5-е поколение, с видео)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-classic">iPod classic</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-mini">iPod mini <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-mini">iPod mini</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-nano">iPod nano <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-1">iPod nano (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-2">iPod nano (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-3">iPod nano (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-4">iPod nano (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-5">iPod nano (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-6">iPod nano (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-nano-7">iPod nano (7-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-shuffle">iPod shuffle <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-1">iPod shuffle (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-2">iPod shuffle (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-3">iPod shuffle (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-shuffle-4">iPod shuffle (4-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/ipod#iPod-touch">iPod touch <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-1">iPod touch (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-2">iPod touch (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-3">iPod touch (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-4">iPod touch (4-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-5">iPod touch (5-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-6">iPod touch (6-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/ipod-touch-7">iPod touch (7-е поколение)</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/airpods">AirPods<span class="caret"> ▾</span></a>
+            
+              <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
+              <ul class="dropdown">
+                
+                  <li class="dropdown-overview"><a href="/apple-wiki/article/airpods">Обзор: AirPods</a></li>
+                
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/airpods#AirPods">AirPods <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/airpods-1">AirPods (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-2">AirPods (2-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-3">AirPods (3-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-4">AirPods 4</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-5">AirPods 5</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/airpods#AirPods-Pro">AirPods Pro <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/airpods-pro-1">AirPods Pro (1-е поколение)</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-pro-2">AirPods Pro 2</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-pro-3">AirPods Pro 3</a></li>
+                      
+                    </ul>
+                  </li>
+                
+                  <li class="has-sub">
+                    <a href="/apple-wiki/category/airpods#AirPods-Max">AirPods Max <span class="sub-arrow">‹</span></a>
+                    <ul class="submenu">
+                      
+                        <li><a href="/apple-wiki/article/airpods-max">AirPods Max</a></li>
+                      
+                        <li><a href="/apple-wiki/article/airpods-max-2">AirPods Max 2</a></li>
+                      
+                    </ul>
+                  </li>
+                
+              </ul>
+            
+          </div>
+        
+          <div class="menu-item">
+            <a href="/apple-wiki/category/tech">Технологии<span class="caret"> ▾</span></a>
+            
+              <ul class="dropdown">
+                
+                  <li><a href="/apple-wiki/article/app-store">App Store</a></li>
+                
+                  <li><a href="/apple-wiki/article/vision-pro">Apple Vision Pro</a></li>
+                
+                  <li><a href="/apple-wiki/article/apple-silicon">Apple silicon</a></li>
+                
+                  <li><a href="/apple-wiki/article/face-id">Face ID</a></li>
+                
+                  <li><a href="/apple-wiki/article/siri">Siri</a></li>
+                
+                  <li><a href="/apple-wiki/article/touch-id">Touch ID</a></li>
+                
+                  <li><a href="/apple-wiki/article/operating-systems">Операционные системы</a></li>
+                
+              </ul>
+            
+          </div>
+        
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="page-header">
+        
+        <h1>Энциклопедия Apple</h1>
+      </div>
+
+      <div class="page-body">
+        <div class="page-content">
+          
+<div class="welcome">
+  <b>Добро пожаловать в Энциклопедию Apple!</b>
+  <p>Здесь 234 статей об истории компании, людях, устройствах и технологиях — от гаража в 1976 году до наших дней.</p>
+</div>
+
+<!-- Вкладки разделов. Работают без JavaScript: каждая вкладка — радиокнопка -->
+<div class="tabs">
+  
+    <input type="radio" name="tab" id="tab-history" checked>
+    <label for="tab-history">История</label>
+  
+    <input type="radio" name="tab" id="tab-people" >
+    <label for="tab-people">Люди</label>
+  
+    <input type="radio" name="tab" id="tab-iphone" >
+    <label for="tab-iphone">iPhone</label>
+  
+    <input type="radio" name="tab" id="tab-ipad" >
+    <label for="tab-ipad">iPad</label>
+  
+    <input type="radio" name="tab" id="tab-mac" >
+    <label for="tab-mac">Mac</label>
+  
+    <input type="radio" name="tab" id="tab-watch" >
+    <label for="tab-watch">Apple Watch</label>
+  
+    <input type="radio" name="tab" id="tab-ipod" >
+    <label for="tab-ipod">iPod</label>
+  
+    <input type="radio" name="tab" id="tab-airpods" >
+    <label for="tab-airpods">AirPods</label>
+  
+    <input type="radio" name="tab" id="tab-tech" >
+    <label for="tab-tech">Технологии</label>
+  
+  <a class="tab-link" href="/apple-wiki/random">Случайная статья</a>
+
+  
+    <div class="tab-panel" id="panel-history">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/founding">
+  <span class="card-image"><img class="pic cutout lift" src="/apple-wiki/static/img/apple-logo.webp" alt="Основание Apple" loading="lazy"></span>
+  <span class="card-title">Основание Apple</span>
+</a>
+<a class="card" href="/apple-wiki/article/apple-ii">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/apple-ii.webp" alt="Apple II" loading="lazy"></span>
+  <span class="card-title">Apple II</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh.webp" alt="Macintosh 1984" loading="lazy"></span>
+  <span class="card-title">Macintosh 1984</span>
+</a>
+<a class="card" href="/apple-wiki/article/jobs-return">
+  <span class="card-image"><img class="pic cutout logo" src="/apple-wiki/static/img/jobs-return.webp" alt="Возвращение Джобса" loading="lazy"></span>
+  <span class="card-title">Возвращение Джобса</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-people">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/jobs">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/jobs.webp" alt="Стив Джобс" loading="lazy"></span>
+  <span class="card-title">Стив Джобс</span>
+</a>
+<a class="card" href="/apple-wiki/article/wozniak">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/wozniak.webp" alt="Стив Возняк" loading="lazy"></span>
+  <span class="card-title">Стив Возняк</span>
+</a>
+<a class="card" href="/apple-wiki/article/cook">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/cook.webp" alt="Тим Кук" loading="lazy"></span>
+  <span class="card-title">Тим Кук</span>
+</a>
+<a class="card" href="/apple-wiki/article/ternus">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ternus.webp" alt="Джон Тёрнус" loading="lazy"></span>
+  <span class="card-title">Джон Тёрнус</span>
+</a>
+<a class="card" href="/apple-wiki/article/ive">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ive.webp" alt="Джони Айв" loading="lazy"></span>
+  <span class="card-title">Джони Айв</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-iphone">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/iphone-launch">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-launch.webp" alt="iPhone (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPhone (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/iphone.webp" alt="iPhone" loading="lazy"></span>
+  <span class="card-title">iPhone</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-3g">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-3g.webp" alt="iPhone 3G" loading="lazy"></span>
+  <span class="card-title">iPhone 3G</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-3gs">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-3gs.webp" alt="iPhone 3GS" loading="lazy"></span>
+  <span class="card-title">iPhone 3GS</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-4">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-4.webp" alt="iPhone 4" loading="lazy"></span>
+  <span class="card-title">iPhone 4</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-4s">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-4s.webp" alt="iPhone 4S" loading="lazy"></span>
+  <span class="card-title">iPhone 4S</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-5">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-5.webp" alt="iPhone 5" loading="lazy"></span>
+  <span class="card-title">iPhone 5</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-5c">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-5c.webp" alt="iPhone 5C" loading="lazy"></span>
+  <span class="card-title">iPhone 5C</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-5s">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-5s.webp" alt="iPhone 5S" loading="lazy"></span>
+  <span class="card-title">iPhone 5S</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-6">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-6.webp" alt="iPhone 6 и 6 Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 6 и 6 Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-6s">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-6s.webp" alt="iPhone 6s и 6s Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 6s и 6s Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-se-1">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-se-1.webp" alt="iPhone SE (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPhone SE (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-7">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-7.webp" alt="iPhone 7 и 7 Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 7 и 7 Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-8">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-8.webp" alt="iPhone 8 и 8 Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 8 и 8 Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-x">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-x.webp" alt="iPhone X" loading="lazy"></span>
+  <span class="card-title">iPhone X</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-xr">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-xr.webp" alt="iPhone XR" loading="lazy"></span>
+  <span class="card-title">iPhone XR</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-xs">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-xs.webp" alt="iPhone XS и XS Max" loading="lazy"></span>
+  <span class="card-title">iPhone XS и XS Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-11">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-11.webp" alt="iPhone 11" loading="lazy"></span>
+  <span class="card-title">iPhone 11</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-11-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-11-pro.webp" alt="iPhone 11 Pro и 11 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 11 Pro и 11 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-se-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-se-2.webp" alt="iPhone SE (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPhone SE (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-12">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-12.webp" alt="iPhone 12 и 12 mini" loading="lazy"></span>
+  <span class="card-title">iPhone 12 и 12 mini</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-12-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-12-pro.webp" alt="iPhone 12 Pro и 12 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 12 Pro и 12 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-13">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-13.webp" alt="iPhone 13 и 13 mini" loading="lazy"></span>
+  <span class="card-title">iPhone 13 и 13 mini</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-13-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-13-pro.webp" alt="iPhone 13 Pro и 13 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 13 Pro и 13 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-se-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-se-3.webp" alt="iPhone SE (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPhone SE (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-14">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-14.webp" alt="iPhone 14 и 14 Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 14 и 14 Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-14-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-14-pro.webp" alt="iPhone 14 Pro и 14 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 14 Pro и 14 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-15">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-15.webp" alt="iPhone 15 и 15 Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 15 и 15 Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-15-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-15-pro.webp" alt="iPhone 15 Pro и 15 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 15 Pro и 15 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-16">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-16.webp" alt="iPhone 16 и 16 Plus" loading="lazy"></span>
+  <span class="card-title">iPhone 16 и 16 Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-16-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-16-pro.webp" alt="iPhone 16 Pro и 16 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 16 Pro и 16 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-16e">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-16e.webp" alt="iPhone 16e" loading="lazy"></span>
+  <span class="card-title">iPhone 16e</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-17">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-17.webp" alt="iPhone 17" loading="lazy"></span>
+  <span class="card-title">iPhone 17</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-air">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-air.webp" alt="iPhone Air" loading="lazy"></span>
+  <span class="card-title">iPhone Air</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-17-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-17-pro.webp" alt="iPhone 17 Pro и 17 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 17 Pro и 17 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-17e">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-17e.webp" alt="iPhone 17e" loading="lazy"></span>
+  <span class="card-title">iPhone 17e</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-18-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-18-pro.webp" alt="iPhone 18 Pro и 18 Pro Max" loading="lazy"></span>
+  <span class="card-title">iPhone 18 Pro и 18 Pro Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/iphone-duo">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/iphone-duo.webp" alt="iPhone Duo" loading="lazy"></span>
+  <span class="card-title">iPhone Duo</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-ipad">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/ipad">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad.webp" alt="iPad" loading="lazy"></span>
+  <span class="card-title">iPad</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-1">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipad-1.webp" alt="iPad (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-2.webp" alt="iPad 2" loading="lazy"></span>
+  <span class="card-title">iPad 2</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-3.webp" alt="iPad (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-4">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-4.webp" alt="iPad (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-5">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipad-5.webp" alt="iPad (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-6">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipad-6.webp" alt="iPad (6-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (6-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-7">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-7.webp" alt="iPad (7-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (7-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-8">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-8.webp" alt="iPad (8-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (8-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-9">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-9.webp" alt="iPad (9-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (9-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-10">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-10.webp" alt="iPad (10-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (10-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-11">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-11.webp" alt="iPad (11-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad (11-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipad-mini-1.webp" alt="iPad mini (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad mini (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-mini-2.webp" alt="iPad mini 2" loading="lazy"></span>
+  <span class="card-title">iPad mini 2</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-mini-3.webp" alt="iPad mini 3" loading="lazy"></span>
+  <span class="card-title">iPad mini 3</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipad-mini-4.webp" alt="iPad mini 4" loading="lazy"></span>
+  <span class="card-title">iPad mini 4</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-5">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipad-mini-5.webp" alt="iPad mini (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad mini (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-6">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipad-mini-6.webp" alt="iPad mini (6-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad mini (6-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-mini-7">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-mini-7.webp" alt="iPad mini (7-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad mini (7-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-1">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-1.webp" alt="iPad Air (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Air (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-2.webp" alt="iPad Air 2" loading="lazy"></span>
+  <span class="card-title">iPad Air 2</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-3">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipad-air-3.webp" alt="iPad Air (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Air (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-4">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-4.webp" alt="iPad Air (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Air (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-5">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-air-5.webp" alt="iPad Air (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Air (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-6">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipad-air-6.webp" alt="iPad Air (6-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Air (6-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-7">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipad-air-7.webp" alt="iPad Air (7-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Air (7-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-air-8">
+  <span class="card-image">📲</span>
+  <span class="card-title">iPad Air (8-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-1">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-1.webp" alt="iPad Pro (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-2.webp" alt="iPad Pro (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-3.webp" alt="iPad Pro (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-4">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-4.webp" alt="iPad Pro (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-5">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-5.webp" alt="iPad Pro (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-6">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipad-pro-6.webp" alt="iPad Pro (6-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (6-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-7">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipad-pro-7.webp" alt="iPad Pro (7-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (7-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipad-pro-8">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipad-pro-8.webp" alt="iPad Pro (8-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPad Pro (8-е поколение)</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-mac">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/mac">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/mac.webp" alt="Mac" loading="lazy"></span>
+  <span class="card-title">Mac</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macbook.webp" alt="MacBook" loading="lazy"></span>
+  <span class="card-title">MacBook</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/imac.webp" alt="iMac" loading="lazy"></span>
+  <span class="card-title">iMac</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-original">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-original.webp" alt="MacBook (2006–2012)" loading="lazy"></span>
+  <span class="card-title">MacBook (2006–2012)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-retina">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macbook-retina.webp" alt="MacBook (2015–2019)" loading="lazy"></span>
+  <span class="card-title">MacBook (2015–2019)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-neo">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macbook-neo.webp" alt="MacBook Neo" loading="lazy"></span>
+  <span class="card-title">MacBook Neo</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-1">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/macbook-air-1.webp" alt="MacBook Air (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-2.webp" alt="MacBook Air (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macbook-air-3.webp" alt="MacBook Air (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-4">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-4.webp" alt="MacBook Air (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-1">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macbook-pro-1.webp" alt="MacBook Pro (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macbook-pro-2.webp" alt="MacBook Pro (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-3.webp" alt="MacBook Pro (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/macbook-pro-4.webp" alt="MacBook Pro (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-5">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-5.webp" alt="MacBook Pro (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-g3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/imac-g3.webp" alt="iMac G3" loading="lazy"></span>
+  <span class="card-title">iMac G3</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-g4">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/imac-g4.webp" alt="iMac G4" loading="lazy"></span>
+  <span class="card-title">iMac G4</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-g5">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/imac-g5.webp" alt="iMac G5" loading="lazy"></span>
+  <span class="card-title">iMac G5</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-intel">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/imac-intel.webp" alt="iMac на Intel (2006–2012)" loading="lazy"></span>
+  <span class="card-title">iMac на Intel (2006–2012)</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-2012">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/imac-2012.webp" alt="iMac (2012)" loading="lazy"></span>
+  <span class="card-title">iMac (2012)</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-2021">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/imac-2021.webp" alt="iMac (2021, M1)" loading="lazy"></span>
+  <span class="card-title">iMac (2021, M1)</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-2023">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/imac-2023.webp" alt="iMac (2023–2024)" loading="lazy"></span>
+  <span class="card-title">iMac (2023–2024)</span>
+</a>
+<a class="card" href="/apple-wiki/article/imac-pro">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/imac-pro.webp" alt="iMac Pro" loading="lazy"></span>
+  <span class="card-title">iMac Pro</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-mini-1">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/mac-mini-1.webp" alt="Mac mini (1-е поколение, 2005)" loading="lazy"></span>
+  <span class="card-title">Mac mini (1-е поколение, 2005)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-mini-2">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/mac-mini-2.webp" alt="Mac mini (2-е поколение, 2010)" loading="lazy"></span>
+  <span class="card-title">Mac mini (2-е поколение, 2010)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-mini-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/mac-mini-3.webp" alt="Mac mini (3-е поколение, 2024)" loading="lazy"></span>
+  <span class="card-title">Mac mini (3-е поколение, 2024)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-pro-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/mac-pro-1.webp" alt="Mac Pro (1-е поколение, 2006–2013)" loading="lazy"></span>
+  <span class="card-title">Mac Pro (1-е поколение, 2006–2013)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-pro-2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/mac-pro-2.webp" alt="Mac Pro (2-е поколение, 2013–2019)" loading="lazy"></span>
+  <span class="card-title">Mac Pro (2-е поколение, 2013–2019)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-pro-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/mac-pro-3.webp" alt="Mac Pro (3-е поколение, 2019–2026)" loading="lazy"></span>
+  <span class="card-title">Mac Pro (3-е поколение, 2019–2026)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-m2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m2.webp" alt="MacBook Air (M2, 2022–2023)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (M2, 2022–2023)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-m3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m3.webp" alt="MacBook Air (M3, 2024)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (M3, 2024)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-m4">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m4.webp" alt="MacBook Air (M4, 2025)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (M4, 2025)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-air-m5">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-air-m5.webp" alt="MacBook Air (M5, 2026)" loading="lazy"></span>
+  <span class="card-title">MacBook Air (M5, 2026)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-2021">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-2021.webp" alt="MacBook Pro (14 и 16 дюймов, 2021)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (14 и 16 дюймов, 2021)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-m2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m2.webp" alt="MacBook Pro (M2, 2022–2023)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (M2, 2022–2023)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-m3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m3.webp" alt="MacBook Pro (M3, 2023)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (M3, 2023)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-m4">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m4.webp" alt="MacBook Pro (M4, 2024)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (M4, 2024)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macbook-pro-m5">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macbook-pro-m5.webp" alt="MacBook Pro (M5, 2025–2026)" loading="lazy"></span>
+  <span class="card-title">MacBook Pro (M5, 2025–2026)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-mini-m6">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/mac-mini-m6.webp" alt="Mac mini (M6 и M5 Pro, 2026)" loading="lazy"></span>
+  <span class="card-title">Mac mini (M6 и M5 Pro, 2026)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-studio-2022">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2022.webp" alt="Mac Studio (2022, M1 Max и M1 Ultra)" loading="lazy"></span>
+  <span class="card-title">Mac Studio (2022, M1 Max и M1 Ultra)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-studio-2023">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2023.webp" alt="Mac Studio (2023, M2 Max и M2 Ultra)" loading="lazy"></span>
+  <span class="card-title">Mac Studio (2023, M2 Max и M2 Ultra)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-studio-2025">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2025.webp" alt="Mac Studio (2025, M4 Max и M3 Ultra)" loading="lazy"></span>
+  <span class="card-title">Mac Studio (2025, M4 Max и M3 Ultra)</span>
+</a>
+<a class="card" href="/apple-wiki/article/mac-studio-2026">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/mac-studio-2026.webp" alt="Mac Studio (2026, M5 Max и M5 Ultra)" loading="lazy"></span>
+  <span class="card-title">Mac Studio (2026, M5 Max и M5 Ultra)</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-512k">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/macintosh-512k.webp" alt="Macintosh 512K" loading="lazy"></span>
+  <span class="card-title">Macintosh 512K</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-plus">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/macintosh-plus.webp" alt="Macintosh Plus" loading="lazy"></span>
+  <span class="card-title">Macintosh Plus</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-se">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-se.webp" alt="Macintosh SE" loading="lazy"></span>
+  <span class="card-title">Macintosh SE</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-se-30">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-se-30.webp" alt="Macintosh SE/30" loading="lazy"></span>
+  <span class="card-title">Macintosh SE/30</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-ii">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-ii.webp" alt="Macintosh II" loading="lazy"></span>
+  <span class="card-title">Macintosh II</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-portable">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/macintosh-portable.webp" alt="Macintosh Portable" loading="lazy"></span>
+  <span class="card-title">Macintosh Portable</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-20th">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-20th.webp" alt="Twentieth Anniversary Macintosh" loading="lazy"></span>
+  <span class="card-title">Twentieth Anniversary Macintosh</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-classic">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-classic.webp" alt="Macintosh Classic" loading="lazy"></span>
+  <span class="card-title">Macintosh Classic</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-color-classic">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-color-classic.webp" alt="Macintosh Color Classic" loading="lazy"></span>
+  <span class="card-title">Macintosh Color Classic</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-lc">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-lc.webp" alt="Macintosh LC" loading="lazy"></span>
+  <span class="card-title">Macintosh LC</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-quadra">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macintosh-quadra.webp" alt="Macintosh Quadra" loading="lazy"></span>
+  <span class="card-title">Macintosh Quadra</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-centris">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-centris.webp" alt="Macintosh Centris" loading="lazy"></span>
+  <span class="card-title">Macintosh Centris</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-performa">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/macintosh-performa.webp" alt="Macintosh Performa" loading="lazy"></span>
+  <span class="card-title">Macintosh Performa</span>
+</a>
+<a class="card" href="/apple-wiki/article/macintosh-tv">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/macintosh-tv.webp" alt="Macintosh TV" loading="lazy"></span>
+  <span class="card-title">Macintosh TV</span>
+</a>
+<a class="card" href="/apple-wiki/article/power-macintosh-6100">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/power-macintosh-6100.webp" alt="Power Macintosh 6100" loading="lazy"></span>
+  <span class="card-title">Power Macintosh 6100</span>
+</a>
+<a class="card" href="/apple-wiki/article/power-mac-g3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/power-mac-g3.webp" alt="Power Macintosh G3" loading="lazy"></span>
+  <span class="card-title">Power Macintosh G3</span>
+</a>
+<a class="card" href="/apple-wiki/article/power-mac-g3-bw">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/power-mac-g3-bw.webp" alt="Power Macintosh G3 (синий и белый)" loading="lazy"></span>
+  <span class="card-title">Power Macintosh G3 (синий и белый)</span>
+</a>
+<a class="card" href="/apple-wiki/article/power-mac-g4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/power-mac-g4.webp" alt="Power Mac G4" loading="lazy"></span>
+  <span class="card-title">Power Mac G4</span>
+</a>
+<a class="card" href="/apple-wiki/article/power-mac-g4-cube">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/power-mac-g4-cube.webp" alt="Power Mac G4 Cube" loading="lazy"></span>
+  <span class="card-title">Power Mac G4 Cube</span>
+</a>
+<a class="card" href="/apple-wiki/article/power-mac-g5">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/power-mac-g5.webp" alt="Power Mac G5" loading="lazy"></span>
+  <span class="card-title">Power Mac G5</span>
+</a>
+<a class="card" href="/apple-wiki/article/powerbook-100">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/powerbook-100.webp" alt="PowerBook 100" loading="lazy"></span>
+  <span class="card-title">PowerBook 100</span>
+</a>
+<a class="card" href="/apple-wiki/article/powerbook-duo">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/powerbook-duo.webp" alt="PowerBook Duo" loading="lazy"></span>
+  <span class="card-title">PowerBook Duo</span>
+</a>
+<a class="card" href="/apple-wiki/article/powerbook-500">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/powerbook-500.webp" alt="PowerBook серии 500" loading="lazy"></span>
+  <span class="card-title">PowerBook серии 500</span>
+</a>
+<a class="card" href="/apple-wiki/article/powerbook-g3">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/powerbook-g3.webp" alt="PowerBook G3" loading="lazy"></span>
+  <span class="card-title">PowerBook G3</span>
+</a>
+<a class="card" href="/apple-wiki/article/powerbook-g4-titanium">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/powerbook-g4-titanium.webp" alt="PowerBook G4 (титановый)" loading="lazy"></span>
+  <span class="card-title">PowerBook G4 (титановый)</span>
+</a>
+<a class="card" href="/apple-wiki/article/powerbook-g4-aluminum">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/powerbook-g4-aluminum.webp" alt="PowerBook G4 (алюминиевый)" loading="lazy"></span>
+  <span class="card-title">PowerBook G4 (алюминиевый)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ibook-g3">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ibook-g3.webp" alt="iBook G3" loading="lazy"></span>
+  <span class="card-title">iBook G3</span>
+</a>
+<a class="card" href="/apple-wiki/article/ibook-g4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ibook-g4.webp" alt="iBook G4" loading="lazy"></span>
+  <span class="card-title">iBook G4</span>
+</a>
+<a class="card" href="/apple-wiki/article/emac">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/emac.webp" alt="eMac" loading="lazy"></span>
+  <span class="card-title">eMac</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-applecolor-rgb">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/display-applecolor-rgb.webp" alt="AppleColor RGB Monitor" loading="lazy"></span>
+  <span class="card-title">AppleColor RGB Monitor</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-applecolor-hr">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/display-applecolor-hr.webp" alt="AppleColor High-Resolution RGB Monitor" loading="lazy"></span>
+  <span class="card-title">AppleColor High-Resolution RGB Monitor</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-studio-1998">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/display-studio-1998.webp" alt="Apple Studio Display (1998–2004)" loading="lazy"></span>
+  <span class="card-title">Apple Studio Display (1998–2004)</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-cinema">
+  <span class="card-image">🖥️</span>
+  <span class="card-title">Apple Cinema Display (1999–2009)</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-cinema-hd">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/display-cinema-hd.webp" alt="Apple Cinema HD Display (2002–2010)" loading="lazy"></span>
+  <span class="card-title">Apple Cinema HD Display (2002–2010)</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-led-cinema">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/display-led-cinema.webp" alt="Apple LED Cinema Display (2008–2011)" loading="lazy"></span>
+  <span class="card-title">Apple LED Cinema Display (2008–2011)</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-thunderbolt">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/display-thunderbolt.webp" alt="Apple Thunderbolt Display (2011–2016)" loading="lazy"></span>
+  <span class="card-title">Apple Thunderbolt Display (2011–2016)</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-pro-xdr">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/display-pro-xdr.webp" alt="Pro Display XDR" loading="lazy"></span>
+  <span class="card-title">Pro Display XDR</span>
+</a>
+<a class="card" href="/apple-wiki/article/display-studio-2022">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/display-studio-2022.webp" alt="Studio Display (2022)" loading="lazy"></span>
+  <span class="card-title">Studio Display (2022)</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-watch">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/watch">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch.webp" alt="Apple Watch" loading="lazy"></span>
+  <span class="card-title">Apple Watch</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-1">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/watch-1.webp" alt="Apple Watch (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">Apple Watch (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s1">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Series 1</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s2">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Series 2</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s3">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/watch-s3.webp" alt="Apple Watch Series 3" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 3</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/watch-s4.webp" alt="Apple Watch Series 4" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 4</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s5">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-s5.webp" alt="Apple Watch Series 5" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 5</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s6">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Series 6</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s7">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-s7.webp" alt="Apple Watch Series 7" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 7</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s8">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-s8.webp" alt="Apple Watch Series 8" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 8</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s9">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-s9.webp" alt="Apple Watch Series 9" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 9</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s10">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-s10.webp" alt="Apple Watch Series 10" loading="lazy"></span>
+  <span class="card-title">Apple Watch Series 10</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s11">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Series 11</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-s12">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Series 12</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-se-1">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch SE (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-se-2">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch SE (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-se-3">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch SE 3</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-ultra-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-ultra-1.webp" alt="Apple Watch Ultra" loading="lazy"></span>
+  <span class="card-title">Apple Watch Ultra</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-ultra-2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-ultra-2.webp" alt="Apple Watch Ultra 2" loading="lazy"></span>
+  <span class="card-title">Apple Watch Ultra 2</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-ultra-3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-ultra-3.webp" alt="Apple Watch Ultra 3" loading="lazy"></span>
+  <span class="card-title">Apple Watch Ultra 3</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-ultra-4">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Ultra 4</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-edition">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Edition</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-hermes">
+  <span class="card-image">⌚</span>
+  <span class="card-title">Apple Watch Hermès</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-nike">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-nike.webp" alt="Apple Watch Nike" loading="lazy"></span>
+  <span class="card-title">Apple Watch Nike</span>
+</a>
+<a class="card" href="/apple-wiki/article/watch-sport">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/watch-sport.webp" alt="Apple Watch Sport" loading="lazy"></span>
+  <span class="card-title">Apple Watch Sport</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-ipod">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/ipod">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod.webp" alt="iPod" loading="lazy"></span>
+  <span class="card-title">iPod</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-1.webp" alt="iPod (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-2">
+  <span class="card-image">🎵</span>
+  <span class="card-title">iPod (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-3.webp" alt="iPod (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-4">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-4.webp" alt="iPod (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-photo">
+  <span class="card-image">🖼️</span>
+  <span class="card-title">iPod photo</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-5">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-5.webp" alt="iPod (5-е поколение, с видео)" loading="lazy"></span>
+  <span class="card-title">iPod (5-е поколение, с видео)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-classic">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-classic.webp" alt="iPod classic" loading="lazy"></span>
+  <span class="card-title">iPod classic</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-u2">
+  <span class="card-image">🔴</span>
+  <span class="card-title">iPod U2 Special Edition</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-mini">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-mini.webp" alt="iPod mini" loading="lazy"></span>
+  <span class="card-title">iPod mini</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-nano-1.webp" alt="iPod nano (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-nano-2.webp" alt="iPod nano (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-3">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-nano-3.webp" alt="iPod nano (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipod-nano-4.webp" alt="iPod nano (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-5">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-nano-5.webp" alt="iPod nano (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-6">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-nano-6.webp" alt="iPod nano (6-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (6-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-nano-7">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-nano-7.webp" alt="iPod nano (7-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod nano (7-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-shuffle-1">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-1.webp" alt="iPod shuffle (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod shuffle (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-shuffle-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-2.webp" alt="iPod shuffle (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod shuffle (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-shuffle-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-3.webp" alt="iPod shuffle (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod shuffle (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-shuffle-4">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-shuffle-4.webp" alt="iPod shuffle (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod shuffle (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-1">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-1.webp" alt="iPod touch (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-2">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-2.webp" alt="iPod touch (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-3">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-3.webp" alt="iPod touch (3-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/ipod-touch-4.webp" alt="iPod touch (4-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (4-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-5">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-5.webp" alt="iPod touch (5-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (5-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-6">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/ipod-touch-6.webp" alt="iPod touch (6-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (6-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/ipod-touch-7">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/ipod-touch-7.webp" alt="iPod touch (7-е поколение)" loading="lazy"></span>
+  <span class="card-title">iPod touch (7-е поколение)</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-airpods">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/airpods">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/airpods.webp" alt="AirPods" loading="lazy"></span>
+  <span class="card-title">AirPods</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/airpods-1.webp" alt="AirPods (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">AirPods (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/airpods-2.webp" alt="AirPods (2-е поколение)" loading="lazy"></span>
+  <span class="card-title">AirPods (2-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-3">
+  <span class="card-image">🎧</span>
+  <span class="card-title">AirPods (3-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-4">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/airpods-4.webp" alt="AirPods 4" loading="lazy"></span>
+  <span class="card-title">AirPods 4</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-5">
+  <span class="card-image">🎧</span>
+  <span class="card-title">AirPods 5</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-pro-1">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/airpods-pro-1.webp" alt="AirPods Pro (1-е поколение)" loading="lazy"></span>
+  <span class="card-title">AirPods Pro (1-е поколение)</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-pro-2">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/airpods-pro-2.webp" alt="AirPods Pro 2" loading="lazy"></span>
+  <span class="card-title">AirPods Pro 2</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-pro-3">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/airpods-pro-3.webp" alt="AirPods Pro 3" loading="lazy"></span>
+  <span class="card-title">AirPods Pro 3</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-max">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/airpods-max.webp" alt="AirPods Max" loading="lazy"></span>
+  <span class="card-title">AirPods Max</span>
+</a>
+<a class="card" href="/apple-wiki/article/airpods-max-2">
+  <span class="card-image">🎧</span>
+  <span class="card-title">AirPods Max 2</span>
+</a>
+      </div>
+    </div>
+  
+    <div class="tab-panel" id="panel-tech">
+      <div class="grid">
+        
+<a class="card" href="/apple-wiki/article/vision-pro">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/vision-pro.webp" alt="Apple Vision Pro" loading="lazy"></span>
+  <span class="card-title">Apple Vision Pro</span>
+</a>
+<a class="card" href="/apple-wiki/article/apple-silicon">
+  <span class="card-image"><img class="pic photo" src="/apple-wiki/static/img/apple-silicon.webp" alt="Apple silicon" loading="lazy"></span>
+  <span class="card-title">Apple silicon</span>
+</a>
+<a class="card" href="/apple-wiki/article/operating-systems">
+  <span class="card-image">⚙️</span>
+  <span class="card-title">Операционные системы</span>
+</a>
+<a class="card" href="/apple-wiki/article/app-store">
+  <span class="card-image"><img class="pic cutout" src="/apple-wiki/static/img/app-store-icon.webp" alt="App Store" loading="lazy"></span>
+  <span class="card-title">App Store</span>
+</a>
+<a class="card" href="/apple-wiki/article/siri">
+  <span class="card-image"><img class="pic cutout logo" src="/apple-wiki/static/img/siri.webp" alt="Siri" loading="lazy"></span>
+  <span class="card-title">Siri</span>
+</a>
+<a class="card" href="/apple-wiki/article/touch-id">
+  <span class="card-image"><img class="pic white" src="/apple-wiki/static/img/touch-id.webp" alt="Touch ID" loading="lazy"></span>
+  <span class="card-title">Touch ID</span>
+</a>
+<a class="card" href="/apple-wiki/article/face-id">
+  <span class="card-image"><img class="pic cutout logo" src="/apple-wiki/static/img/face-id.webp" alt="Face ID" loading="lazy"></span>
+  <span class="card-title">Face ID</span>
+</a>
+      </div>
+    </div>
+  
+</div>
+
+<div class="main-columns">
+  <section class="box">
+    <h2 class="box-title">Статья дня</h2>
+    <div class="box-body">
+      <span class="thumb"><img class="pic photo" src="/apple-wiki/static/img/ive.webp" alt="Джони Айв" loading="lazy"></span>
+      <p><a href="/apple-wiki/article/ive"><b>Джони Айв</b></a> — Британский дизайнер, который почти три десятилетия создавал облик продуктов Apple.</p>
+      <p>Сэр Джонатан Пол «Джони» Айв (родился 27 февраля 1967 года) — британский дизайнер, бывший главный дизайнер (Chief Design Officer) Apple. Он главный промышленный дизайнер и автор идеи iMac, PowerBook G4, Power Mac G4 Cube, MacBook, MacBook Pro с цельным корпусом, MacBook Air, iPod, iPhone и iPad.</p>
+      <p><a href="/apple-wiki/article/ive">Читать далее →</a></p>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2 class="box-title">Биография дня</h2>
+    <div class="box-body">
+      <span class="thumb"><img class="pic photo" src="/apple-wiki/static/img/cook.webp" alt="Тим Кук" loading="lazy"></span>
+      <p><a href="/apple-wiki/article/cook"><b>Тим Кук</b></a> — Глава Apple с 2011 по 2026 год, теперь исполнительный председатель совета директоров.</p>
+      <p>Тимоти Дональд Кук (родился 1 ноября 1960 года) — исполнительный председатель совета директоров Apple. С 2011 по 2026 год он был главой компании. Кук — один из самых высокооплачиваемых руководителей: в 2015 году его акции стоили 1,3 миллиарда долларов.</p>
+      <p><a href="/apple-wiki/article/cook">Читать далее →</a></p>
+    </div>
+  </section>
+</div>
+
+        </div>
+
+        
+        <aside class="rail">
+          
+<section class="rail-box">
+  <h3>Об энциклопедии</h3>
+  <p>Энциклопедия Apple — справочник обо всём, что связано с Apple. Сейчас в ней <b>234</b> статей.</p>
+</section>
+<section class="rail-box">
+  <h3>Последние события</h3>
+  <ul class="rail-list">
+    
+      <li><span class="year">2026</span> <a href="/apple-wiki/article/airpods-max-2">AirPods Max 2</a></li>
+    
+      <li><span class="year">2026</span> <a href="/apple-wiki/article/airpods-5">AirPods 5</a></li>
+    
+      <li><span class="year">2026</span> <a href="/apple-wiki/article/watch-ultra-4">Apple Watch Ultra 4</a></li>
+    
+      <li><span class="year">2026</span> <a href="/apple-wiki/article/watch-s12">Apple Watch Series 12</a></li>
+    
+      <li><span class="year">2026</span> <a href="/apple-wiki/article/mac-studio-2026">Mac Studio (2026, M5 Max и M5 Ultra)</a></li>
+    
+  </ul>
+  <p><a href="/apple-wiki/timeline">Вся хронология →</a></p>
+</section>
+
+          
+          <section class="rail-box">
+            <h3>Разделы</h3>
+            <ul class="rail-list">
+              
+                <li><a href="/apple-wiki/category/history">История</a> <span class="muted">4</span></li>
+              
+                <li><a href="/apple-wiki/category/people">Люди</a> <span class="muted">5</span></li>
+              
+                <li><a href="/apple-wiki/category/iphone">iPhone</a> <span class="muted">38</span></li>
+              
+                <li><a href="/apple-wiki/category/ipad">iPad</a> <span class="muted">35</span></li>
+              
+                <li><a href="/apple-wiki/category/mac">Mac</a> <span class="muted">81</span></li>
+              
+                <li><a href="/apple-wiki/category/watch">Apple Watch</a> <span class="muted">25</span></li>
+              
+                <li><a href="/apple-wiki/category/ipod">iPod</a> <span class="muted">28</span></li>
+              
+                <li><a href="/apple-wiki/category/airpods">AirPods</a> <span class="muted">11</span></li>
+              
+                <li><a href="/apple-wiki/category/tech">Технологии</a> <span class="muted">7</span></li>
+              
+              <li><a href="/apple-wiki/timeline">Хронология</a></li>
+            </ul>
+          </section>
+          
+        </aside>
+        
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <b>Энциклопедия Apple</b>
+        <p>История компании, люди, устройства и технологии. Учебный проект.</p>
+      </div>
+      <div>
+        <b>Разделы</b>
+        <ul>
+          
+            <li><a href="/apple-wiki/category/history">История</a></li>
+          
+            <li><a href="/apple-wiki/category/people">Люди</a></li>
+          
+            <li><a href="/apple-wiki/category/iphone">iPhone</a></li>
+          
+            <li><a href="/apple-wiki/category/ipad">iPad</a></li>
+          
+            <li><a href="/apple-wiki/category/mac">Mac</a></li>
+          
+            <li><a href="/apple-wiki/category/watch">Apple Watch</a></li>
+          
+            <li><a href="/apple-wiki/category/ipod">iPod</a></li>
+          
+            <li><a href="/apple-wiki/category/airpods">AirPods</a></li>
+          
+            <li><a href="/apple-wiki/category/tech">Технологии</a></li>
+          
+        </ul>
+      </div>
+      <div>
+        <b>Ещё</b>
+        <ul>
+          <li><a href="/apple-wiki/timeline">Хронология</a></li>
+          <li><a href="/apple-wiki/random">Случайная статья</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
