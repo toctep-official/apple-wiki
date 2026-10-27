@@ -52,16 +52,6 @@
 
 {% block rail %}
 <section class="rail-box">
-  <h3>Статья дня</h3>
-  <a class="rail-featured" href="{{ url_for('article', slug=featured.slug) }}">
-    <span class="thumb">{{ picture(featured) }}</span>
-    <span>
-      <b>{{ featured.title }}</b>
-      <span class="muted">{{ featured.summary }}</span>
-    </span>
-  </a>
-</section>
-<section class="rail-box">
   <h3>Об энциклопедии</h3>
   <p>Энциклопедия Apple — справочник обо всём, что связано с Apple. Сейчас в ней <b>{{ article_count }}</b> статей.</p>
 </section>

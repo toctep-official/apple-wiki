@@ -1,4 +1,6 @@
+import json
 from datetime import date
+from pathlib import Path
 
 import re
 
@@ -16,6 +18,12 @@ from articles import (
 )
 
 app = Flask(__name__)
+
+# Вид каждой картинки: cutout — без фона, white — на белом фоне, photo — фото с фоном.
+# Его посчитала программа tools/prepare_images.py, а стили показывают каждый вид по-своему
+with open(Path(__file__).parent / "image_kinds.json") as f:
+    IMAGE_KINDS = json.load(f)
+app.jinja_env.globals["pic_kind"] = lambda file: IMAGE_KINDS.get(file, "photo")
 # Русские буквы в JSON пишем как есть, а не кодами а: файл поиска выходит вдвое меньше
 app.json.ensure_ascii = False
 
@@ -309,6 +317,7 @@ def search_index():
             "url": url_for("article", slug=a["slug"]),
             "image": url_for("static", filename=image["file"]) if image else None,
             "logo": bool(image and image.get("logo")),
+            "kind": IMAGE_KINDS.get(image["file"], "photo") if image else None,
             "emoji": a["emoji"],
             "category": CATEGORIES[a["category"]],
             "text": search_text(a),

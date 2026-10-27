@@ -790,3 +790,98 @@ h1, h2, h3, .wiki-name, .box-title { font-family: -apple-system, BlinkMacSystemF
   .tab-link { margin-left: 0; }
   .site-footer { grid-template-columns: 1fr; padding: 20px; }
 }
+
+/* ===== Доработки дизайна после замены фото на свободные (Wikimedia Commons) ===== */
+
+/* Картинки трёх видов (вид для каждого файла — в image_kinds.json):
+   cutout — устройство без фона, показываем целиком;
+   white — снято на белом фоне, кладём на ровную белую плашку на всю плитку;
+   photo — фото с фоном, в маленьких плитках растягиваем на всю плитку, как обложку */
+.thumb.small { width: 44px; height: 44px; font-size: 24px; }
+.thumb .pic.photo, .suggest-pic .pic.photo { object-fit: cover; padding: 0; }
+.thumb .pic.white { background: #fff; padding: 2px; }
+.card-image .pic { inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
+.card-image .pic.photo, .card-image .pic.white {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+.card-image .pic.photo { object-fit: cover; }
+.card-image .pic.white { background: #fff; padding: 8px; }
+.card-image .pic.logo { inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); border-radius: 16px; padding: 10%; }
+.suggest-pic { border-radius: 10px; overflow: hidden; background: var(--glass-inner); }
+.suggest-pic .pic.white { background: #fff; }
+
+/* Картинка в карточке статьи: целиком, без растягивания */
+.infobox-image .pic { width: auto; max-width: 100%; max-height: 280px; }
+.infobox-image.two-sides { align-items: center; }
+/* Если фото нет — эмодзи в аккуратном стеклянном круге, а не огромный значок */
+.infobox-image:not(:has(img)) {
+  width: 120px;
+  height: 120px;
+  min-height: 0;
+  margin: 16px auto;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--glass-inner);
+  border: 1px solid var(--glass-edge);
+  font-size: 58px;
+}
+
+/* Галерея: ровная сетка вместо рядов разной ширины */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.gallery figure { max-width: none; }
+
+/* Тёмная тема: белые плашки и фото на белом фоне не слепят */
+:root[data-theme="dark"] .pic.white,
+:root[data-theme="dark"] .pic.logo,
+:root[data-theme="dark"] .gallery img { filter: brightness(0.86); }
+/* Чёрные кружки цветов видны и на тёмном фоне */
+:root[data-theme="dark"] .swatch { border-color: rgba(255, 255, 255, 0.35); }
+
+/* Текст статьи: строки не длиннее ~75 знаков — так читать легче */
+.page-content { overflow-wrap: break-word; }
+.page-content > p, .page-content > ul, .page-content > ol:not(.sources), .page-content > .small-note { max-width: 75ch; }
+.page-content > p, .page-content > ul li { font-size: 16px; line-height: 1.6; }
+.page-content h2 {
+  margin: 40px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 170px;  /* по ссылке из оглавления заголовок не прячется под шапку */
+}
+/* Длинное оглавление — в две колонки */
+.toc:has(li:nth-child(9)) { display: block; max-width: 560px; }
+.toc:has(li:nth-child(9)) ol { columns: 2 200px; column-gap: 32px; }
+
+/* Хронология: годы заметнее */
+.year { font-size: 18px; letter-spacing: -0.01em; }
+
+/* Серый текст чуть темнее: на светлых местах обоев он был бледным */
+:root:not([data-theme="dark"]) { --muted: #4a505c; }
+
+/* Видимая рамка при переходе по ссылкам клавишей Tab */
+a:focus-visible, button:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 8px; }
+.card:focus-visible .card-image { transform: scale(1.04); }
+
+/* Телефоны */
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+  /* 16px — меньше iPhone приближает страницу, когда нажимаешь на поле поиска */
+  .search input { font-size: 16px; padding: 12px 18px; }
+  /* Строка разделов листается пальцем: справа она плавно гаснет, чтобы было видно, что дальше есть ещё */
+  .wiki-menu {
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+    padding-right: 24px;
+  }
+  .menu-item > a { padding: 10px 12px; font-size: 14px; }
+  .caret { display: none; }  /* выпадающих списков на телефоне нет — стрелка не нужна */
+  /* Панель внизу не заезжает на полоску «домой» у iPhone */
+  .side-nav { bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .wrap { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .glass-panel { bottom: calc(88px + env(safe-area-inset-bottom)); }
+  /* В подвале и оглавлении по ссылкам легко попасть пальцем */
+  .site-footer li a, .toc li a { display: inline-block; padding: 7px 0; }
+  .infobox, .rail-box, .toc { font-size: 15px; }
+}

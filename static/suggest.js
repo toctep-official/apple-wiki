@@ -32,6 +32,7 @@ function render(query) {
     pic.className = "suggest-pic";
     if (item.image) {
       const img = document.createElement("img");
+      img.className = "pic " + item.kind;
       img.src = item.image;
       img.alt = "";
       pic.append(img);
@@ -152,10 +153,9 @@ async function showSearchPage(results) {
     thumb.className = "thumb small";
     if (a.image) {
       const img = document.createElement("img");
-      img.className = a.logo ? "pic logo" : "pic";
+      img.className = "pic " + a.kind + (a.logo ? " logo" : "");
       img.src = a.image;
       img.alt = a.title;
-      img.loading = "lazy";
       thumb.append(img);
     } else {
       thumb.textContent = a.emoji;

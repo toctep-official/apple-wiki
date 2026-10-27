@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <script>
     // Тему выбираем до отрисовки страницы, чтобы не было вспышки светлой темы.
     // Сохранённый выбор важнее настройки системы
@@ -29,10 +29,10 @@
 <body>
   <!-- Узкая тёмная полоса слева, как на вики-сайтах -->
   <nav class="side-nav">
-    <a class="side-logo" href="{{ url_for('index') }}" title="Главная"><img src="{{ url_for('static', filename='img/apple-logo.webp') }}" alt=""></a>
-    <a href="{{ url_for('timeline') }}" title="Хронология">🕒</a>
-    <a href="{{ url_for('random_article') }}" title="Случайная статья">🎲</a>
-    <a href="#search" title="Поиск">🔍</a>
+    <a class="side-logo" href="{{ url_for('index') }}" title="Главная"><img src="{{ url_for('static', filename='img/apple-logo.webp') }}" alt="Главная"></a>
+    <a href="{{ url_for('timeline') }}" title="Хронология" aria-label="Хронология">🕒</a>
+    <a href="{{ url_for('random_article') }}" title="Случайная статья" aria-label="Случайная статья">🎲</a>
+    <a href="#search" title="Поиск" aria-label="Поиск" onclick="document.querySelector('.search input').focus()">🔍</a>
     <button type="button" id="theme-toggle" title="Тёмная тема" aria-label="Тёмная тема">🌙</button>
     <button type="button" id="glass-toggle" title="Настройки Liquid Glass" aria-label="Настройки Liquid Glass">💧</button>
   </nav>
@@ -48,7 +48,7 @@
       </div>
 
       <form class="search" id="search" action="{{ url_for('search') }}">
-        <input type="search" name="q" placeholder="Искать в энциклопедии…" value="{{ query or '' }}"
+        <input type="search" name="q" placeholder="Искать в энциклопедии…" aria-label="Поиск по энциклопедии" value="{{ query or '' }}"
                autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest-list"
                data-index-url="{{ url_for('search_index') }}">
         <ul class="suggest" id="suggest-list" role="listbox" hidden></ul>
@@ -56,7 +56,7 @@
 
       <nav class="wiki-menu">
         <div class="menu-item">
-          <a href="{{ url_for('index') }}">Обзор ▾</a>
+          <a href="{{ url_for('index') }}">Обзор<span class="caret"> ▾</span></a>
           <ul class="dropdown">
             <li><a href="{{ url_for('index') }}">Главная</a></li>
             <li><a href="{{ url_for('timeline') }}">Хронология</a></li>
@@ -65,7 +65,7 @@
         </div>
         {% for key, name in categories.items() %}
           <div class="menu-item">
-            <a href="{{ url_for('category', key=key) }}">{{ name }} ▾</a>
+            <a href="{{ url_for('category', key=key) }}">{{ name }}<span class="caret"> ▾</span></a>
             {% if key in submenus %}
               <!-- Двухуровневое меню: линейки, а в каждой — свой список моделей -->
               <ul class="dropdown">

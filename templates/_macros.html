@@ -1,7 +1,7 @@
 {# Картинка статьи. Если картинки нет — показываем эмодзи #}
 {% macro picture(a) -%}
   {%- if a.image -%}
-    <img class="pic{% if a.image.logo %} logo{% endif %}{% if a.image.lift %} lift{% endif %}" src="{{ url_for('static', filename=a.image.file) }}" alt="{{ a.title }}" loading="lazy">
+    <img class="pic {{ pic_kind(a.image.file) }}{% if a.image.logo %} logo{% endif %}{% if a.image.lift %} lift{% endif %}" src="{{ url_for('static', filename=a.image.file) }}" alt="{{ a.title }}" loading="lazy">
   {%- else -%}
     {{ a.emoji }}
   {%- endif -%}
